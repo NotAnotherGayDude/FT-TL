@@ -30,80 +30,113 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 #include <rt_tm/common/common.hpp>
 #include <rt_tm/common/tuple.hpp>
 #include <rt_tm/cpu/cpu_op_core.hpp>
+#include <condition_variable>
+#include <thread>
 #include <latch>
 
 namespace rt_tm {
 
-	template<impl_indices indices, size_t depth_new> struct cas_queue {
-	  protected:
-		std::vector<cpu_op_core<depth_new>*> task_ptrs{};
-		std::vector<cpu_op_core<depth_new>> tasks{};
+	template<typename value_type> struct alignas(64) atomic_wrapper {
+		RT_TM_FORCE_INLINE atomic_wrapper()						 = default;
+		RT_TM_FORCE_INLINE atomic_wrapper& operator=(const atomic_wrapper& other) {
+			return *this;
+		};
+		RT_TM_FORCE_INLINE atomic_wrapper(const atomic_wrapper& other) {
+			*this = other;
+		}
+		std::atomic<value_type> value{};
 	};
 
-	template<impl_indices indices, size_t depth_new> struct scheduler_depth : public cas_queue<indices, depth_new> {
-		static constexpr size_t depth{ depth_new };
+	template<impl_indices indices> struct cas_queue {
+	  protected:
+		std::vector<std::vector<cpu_op_core_thread>> task_threads{};
+		std::atomic_uint64_t lowest_index{};
+		std::vector<cpu_op_core> tasks{};
+	};
 
-		template<typename cpu_scheduler_type> RT_TM_FORCE_INLINE bool reset_state(std::vector<op_core>& ops, cpu_scheduler_type& cpu_scheduler, size_t max_depth) {
-			if (depth < max_depth) {
-				std::cout << "WERE HERE THIS IS IT!" << std::endl;
-				cpu_scheduler.template schedule_tasks<depth_new>(*this, ops);
-				latch = std::make_unique<std::latch>(this->tasks.size());
-				return true;
-			} else {
-				std::cout << "WERE HERE THIS IS NOT IT!" << std::endl;
-				return false;
+	template<impl_indices indices> struct thread_pool : public cas_queue<indices> {
+		RT_TM_FORCE_INLINE thread_pool() noexcept = default;
+		RT_TM_FORCE_INLINE thread_pool(size_t thread_count) {
+			working_val.resize(thread_count);
+			for (size_t x = 0; x < thread_count; ++x) {
+				threads.emplace_back(std::jthread{ [&, x] {
+					thread_function(x);
+				} });
 			}
 		}
-
-		RT_TM_FORCE_INLINE bool thread_function(size_t max_depth) {
-			if (depth < max_depth) {
-				return true;
-				latch->arrive_and_wait();
-			} else {
-				return false;
-			}
-		};
-
-	  protected:
-		std::unique_ptr<std::latch> latch{};
-	};
-
-	template<typename... bases> struct scheduler_depths : public bases... {
-		template<typename op_entity_type, typename... arg_types> RT_TM_FORCE_INLINE bool iterate_values_impl(arg_types&&... args) {
-			return op_entity_type::thread_function(std::forward<arg_types>(args)...);
-		}
-
-		template<typename... arg_types> constexpr void iterate_values(arg_types&&... args) {
-			(iterate_values_impl<bases>(args...) && ...);
-		}
-
-		template<typename op_entity_type, typename... arg_types> RT_TM_FORCE_INLINE bool reset_state_impl(arg_types&&... args) {
-			return op_entity_type::reset_state(std::forward<arg_types>(args)...);
-		}
-
-		template<typename... arg_types> constexpr void reset_state(arg_types&&... args) {
-			(reset_state_impl<bases>(args...) && ...);
-		}
-	};
-
-	template<impl_indices indices, typename index_sequence> struct get_scheduler_base;
-
-	template<impl_indices indices, size_t... index> struct get_scheduler_base<indices, std::index_sequence<index...>> {
-		using type = scheduler_depths<scheduler_depth<indices,index>...>;
-	};
-
-	template<impl_indices indices>using scheduler_base_t = typename get_scheduler_base<indices,std::make_index_sequence<32>>::type;
-
-	template<impl_indices indices> struct thread_pool {
-		scheduler_base_t<indices> scheduler_depths{};
-
-		template<typename cpu_scheduler_type> RT_TM_FORCE_INLINE void reset_state(std::vector<op_core>& ops, cpu_scheduler_type& cpu_scheduler) {
-			scheduler_depths.reset_state(ops, cpu_scheduler, 12);
-		};
 
 		RT_TM_FORCE_INLINE void execute_tasks() {
-			scheduler_depths.iterate_values(12);
 		}
+
+		RT_TM_FORCE_INLINE bool all_working() noexcept {
+			for (auto& value: working_val) {
+				if (!value.load(std::memory_order_acquire)) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		RT_TM_FORCE_INLINE bool any_working() noexcept {
+			for (auto& value: working_val) {
+				if (value.value.load(std::memory_order_acquire)) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+		template<typename cpu_scheduler_type> RT_TM_FORCE_INLINE bool reset_state(std::vector<op_core>& ops, cpu_scheduler_type& cpu_scheduler) {
+			cpu_scheduler.template schedule_tasks(*this, ops);
+		}
+
+		RT_TM_FORCE_INLINE void thread_function(size_t current_index) {
+			while (!stop.load(std::memory_order_acquire)) {
+				latch->wait();
+				working_val[current_index].value.store(true, std::memory_order_release);
+				while (this->lowest_index.load(std::memory_order_acquire) < this->tasks.size() && !stop.load(std::memory_order_acquire)) {
+					size_t local_index{ this->lowest_index.load(std::memory_order_acquire) };
+					while (local_index < this->tasks.size()) {
+						cpu_op_core& op{ this->tasks[local_index] };
+						if (op.flag.load(std::memory_order_acquire) == 0) {
+							int64_t local_index_thread = op.flag.fetch_add(1, std::memory_order_acq_rel);
+							if (local_index_thread < 0) {
+							} else if (local_index_thread < op.thread_count) {
+								cpu_op_core_thread& thread = this->task_threads[local_index][local_index_thread];
+								if (thread.flag.test_and_set()) {
+									// execute
+									thread.flag.clear();
+									thread.op_core->dependent_op->fetch_add(1, std::memory_order_release);
+								}
+							} else {
+								this->lowest_index.fetch_add(1, std::memory_order_release);
+							}
+
+						}
+
+						if (op.flag.load(std::memory_order_acquire) >= op.thread_count) {
+							this->lowest_index.fetch_add(1, std::memory_order_release);
+						}
+						++local_index;
+					}
+				}
+				working_val[current_index].value.store(false, std::memory_order_release);
+				while (working_val_main.value.load(std::memory_order_acquire)) {
+				}
+				latch->arrive_and_wait();
+			}
+		};
+
+		~thread_pool() noexcept {
+			stop.store(true, std::memory_order_release);
+		}
+
+	  protected:
+		std::vector<atomic_wrapper<bool>> working_val{};
+		atomic_wrapper<bool> working_val_main{};
+		std::unique_ptr<std::latch> latch{};
+		std::vector<std::jthread> threads{};
+		std::atomic_bool stop{};
 	};
 
 }

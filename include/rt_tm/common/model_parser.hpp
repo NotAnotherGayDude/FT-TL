@@ -61,7 +61,7 @@ namespace rt_tm {
 	};
 
 	template<typename value_type> struct value_reader {
-		RT_TM_FORCE_INLINE static gguf_metadata_value_type read_value(string_iterator& input) {
+		RT_TM_FORCE_INLINE static gguf_metadata_value_type gather_value(string_iterator& input) {
 			gguf_metadata_value_type value{};
 			if (input.can_read<value_type>()) {
 				std::memcpy(&value, input.first_index + input.current_index, sizeof(value));
@@ -77,7 +77,7 @@ namespace rt_tm {
 	};
 
 	template<> struct value_reader<uint8_t> {
-		RT_TM_FORCE_INLINE static uint8_t read_value(string_iterator& input) {
+		RT_TM_FORCE_INLINE static uint8_t gather_value(string_iterator& input) {
 			uint8_t value{};
 			if (input.can_read<decltype(value)>()) {
 				std::memcpy(&value, input.first_index + input.current_index, sizeof(value));
@@ -90,7 +90,7 @@ namespace rt_tm {
 	};
 
 	template<> struct value_reader<uint16_t> {
-		RT_TM_FORCE_INLINE static uint16_t read_value(string_iterator& input) {
+		RT_TM_FORCE_INLINE static uint16_t gather_value(string_iterator& input) {
 			uint16_t value{};
 			if (input.can_read<decltype(value)>()) {
 				std::memcpy(&value, input.first_index + input.current_index, sizeof(value));
@@ -103,7 +103,7 @@ namespace rt_tm {
 	};
 
 	template<> struct value_reader<uint32_t> {
-		RT_TM_FORCE_INLINE static uint32_t read_value(string_iterator& input) {
+		RT_TM_FORCE_INLINE static uint32_t gather_value(string_iterator& input) {
 			uint32_t value{};
 			if (input.can_read<decltype(value)>()) {
 				std::memcpy(&value, input.first_index + input.current_index, sizeof(value));
@@ -116,7 +116,7 @@ namespace rt_tm {
 	};
 
 	template<> struct value_reader<uint64_t> {
-		RT_TM_FORCE_INLINE static uint64_t read_value(string_iterator& input) {
+		RT_TM_FORCE_INLINE static uint64_t gather_value(string_iterator& input) {
 			uint64_t value{};
 			if (input.can_read<decltype(value)>()) {
 				std::memcpy(&value, input.first_index + input.current_index, sizeof(value));
@@ -129,7 +129,7 @@ namespace rt_tm {
 	};
 
 	template<> struct value_reader<int8_t> {
-		RT_TM_FORCE_INLINE static int8_t read_value(string_iterator& input) {
+		RT_TM_FORCE_INLINE static int8_t gather_value(string_iterator& input) {
 			int8_t value{};
 			if (input.can_read<decltype(value)>()) {
 				std::memcpy(&value, input.first_index + input.current_index, sizeof(value));
@@ -142,7 +142,7 @@ namespace rt_tm {
 	};
 
 	template<> struct value_reader<int16_t> {
-		RT_TM_FORCE_INLINE static int16_t read_value(string_iterator& input) {
+		RT_TM_FORCE_INLINE static int16_t gather_value(string_iterator& input) {
 			int16_t value{};
 			if (input.can_read<decltype(value)>()) {
 				std::memcpy(&value, input.first_index + input.current_index, sizeof(value));
@@ -155,7 +155,7 @@ namespace rt_tm {
 	};
 
 	template<> struct value_reader<int32_t> {
-		RT_TM_FORCE_INLINE static int32_t read_value(string_iterator& input) {
+		RT_TM_FORCE_INLINE static int32_t gather_value(string_iterator& input) {
 			int32_t value{};
 			if (input.can_read<decltype(value)>()) {
 				std::memcpy(&value, input.first_index + input.current_index, sizeof(value));
@@ -168,7 +168,7 @@ namespace rt_tm {
 	};
 
 	template<> struct value_reader<int64_t> {
-		RT_TM_FORCE_INLINE static int64_t read_value(string_iterator& input) {
+		RT_TM_FORCE_INLINE static int64_t gather_value(string_iterator& input) {
 			int64_t value{};
 			if (input.can_read<decltype(value)>()) {
 				std::memcpy(&value, input.first_index + input.current_index, sizeof(value));
@@ -181,7 +181,7 @@ namespace rt_tm {
 	};
 
 	template<> struct value_reader<bool> {
-		RT_TM_FORCE_INLINE static bool read_value(string_iterator& input) {
+		RT_TM_FORCE_INLINE static bool gather_value(string_iterator& input) {
 			bool value{};
 			if (input.can_read<decltype(value)>()) {
 				std::memcpy(&value, input.first_index + input.current_index, sizeof(value));
@@ -194,7 +194,7 @@ namespace rt_tm {
 	};
 
 	template<> struct value_reader<float> {
-		RT_TM_FORCE_INLINE static float read_value(string_iterator& input) {
+		RT_TM_FORCE_INLINE static float gather_value(string_iterator& input) {
 			float value{};
 			if (input.can_read<decltype(value)>()) {
 				std::memcpy(&value, input.first_index + input.current_index, sizeof(value));
@@ -207,7 +207,7 @@ namespace rt_tm {
 	};
 
 	template<> struct value_reader<double> {
-		RT_TM_FORCE_INLINE static double read_value(string_iterator& input) {
+		RT_TM_FORCE_INLINE static double gather_value(string_iterator& input) {
 			double value{};
 			if (input.can_read<decltype(value)>()) {
 				std::memcpy(&value, input.first_index + input.current_index, sizeof(value));
@@ -329,8 +329,8 @@ namespace rt_tm {
 	};
 
 	template<> struct value_reader<gguf_string_t> {
-		RT_TM_FORCE_INLINE static gguf_string_t read_value(string_iterator& input) {
-			uint64_t length{ value_reader<uint64_t>::read_value(input) };
+		RT_TM_FORCE_INLINE static gguf_string_t gather_value(string_iterator& input) {
+			uint64_t length{ value_reader<uint64_t>::gather_value(input) };
 			gguf_string_t value{};
 			value.resize(length);
 			if (input.current_index + length < input.length) {
@@ -344,63 +344,63 @@ namespace rt_tm {
 	};
 
 	template<> struct value_reader<gguf_array_t> {
-		RT_TM_FORCE_INLINE static gguf_array_t read_value(string_iterator& input);
+		RT_TM_FORCE_INLINE static gguf_array_t gather_value(string_iterator& input);
 	};
 
 	template<> struct value_reader<gguf_metadata_value_variant> {
-		RT_TM_INLINE static gguf_metadata_value_variant read_value(string_iterator& input, gguf_metadata_value_type type) {
+		RT_TM_INLINE static gguf_metadata_value_variant gather_value(string_iterator& input, gguf_metadata_value_type type) {
 			gguf_metadata_value_variant value{};
 			switch (type) {
 				case gguf_metadata_value_type::GGUF_METADATA_VALUE_TYPE_INT8: {
-					value.emplace<int64_t>(value_reader<int8_t>::read_value(input));
+					value.emplace<int64_t>(value_reader<int8_t>::gather_value(input));
 					break;
 				}
 				case gguf_metadata_value_type::GGUF_METADATA_VALUE_TYPE_INT16: {
-					value.emplace<int64_t>(value_reader<int16_t>::read_value(input));
+					value.emplace<int64_t>(value_reader<int16_t>::gather_value(input));
 					break;
 				}
 				case gguf_metadata_value_type::GGUF_METADATA_VALUE_TYPE_INT32: {
-					value.emplace<int64_t>(value_reader<int32_t>::read_value(input));
+					value.emplace<int64_t>(value_reader<int32_t>::gather_value(input));
 					break;
 				}
 				case gguf_metadata_value_type::GGUF_METADATA_VALUE_TYPE_INT64: {
-					value.emplace<int64_t>(value_reader<int64_t>::read_value(input));
+					value.emplace<int64_t>(value_reader<int64_t>::gather_value(input));
 					break;
 				}
 				case gguf_metadata_value_type::GGUF_METADATA_VALUE_TYPE_UINT8: {
-					value.emplace<uint64_t>(value_reader<uint8_t>::read_value(input));
+					value.emplace<uint64_t>(value_reader<uint8_t>::gather_value(input));
 					break;
 				}
 				case gguf_metadata_value_type::GGUF_METADATA_VALUE_TYPE_UINT16: {
-					value.emplace<uint64_t>(value_reader<uint16_t>::read_value(input));
+					value.emplace<uint64_t>(value_reader<uint16_t>::gather_value(input));
 					break;
 				}
 				case gguf_metadata_value_type::GGUF_METADATA_VALUE_TYPE_UINT32: {
-					value.emplace<uint64_t>(value_reader<uint32_t>::read_value(input));
+					value.emplace<uint64_t>(value_reader<uint32_t>::gather_value(input));
 					break;
 				}
 				case gguf_metadata_value_type::GGUF_METADATA_VALUE_TYPE_UINT64: {
-					value.emplace<uint64_t>(value_reader<uint64_t>::read_value(input));
+					value.emplace<uint64_t>(value_reader<uint64_t>::gather_value(input));
 					break;
 				}
 				case gguf_metadata_value_type::GGUF_METADATA_VALUE_TYPE_BOOL: {
-					value.emplace<bool>(value_reader<bool>::read_value(input));
+					value.emplace<bool>(value_reader<bool>::gather_value(input));
 					break;
 				}
 				case gguf_metadata_value_type::GGUF_METADATA_VALUE_TYPE_FLOAT32: {
-					value.emplace<float>(value_reader<float>::read_value(input));
+					value.emplace<float>(value_reader<float>::gather_value(input));
 					break;
 				}
 				case gguf_metadata_value_type::GGUF_METADATA_VALUE_TYPE_FLOAT64: {
-					value.emplace<double>(value_reader<double>::read_value(input));
+					value.emplace<double>(value_reader<double>::gather_value(input));
 					break;
 				}
 				case gguf_metadata_value_type::GGUF_METADATA_VALUE_TYPE_STRING: {
-					value.emplace<gguf_string_t>(value_reader<gguf_string_t>::read_value(input));
+					value.emplace<gguf_string_t>(value_reader<gguf_string_t>::gather_value(input));
 					break;
 				}
 				case gguf_metadata_value_type::GGUF_METADATA_VALUE_TYPE_ARRAY: {
-					value.emplace<gguf_array_t*>(new gguf_array_t{ value_reader<gguf_array_t>::read_value(input) });
+					value.emplace<gguf_array_t*>(new gguf_array_t{ value_reader<gguf_array_t>::gather_value(input) });
 					break;
 				}
 				case gguf_metadata_value_type::GGUF_METADATA_VALUE_TYPE_UNSET: {
@@ -411,13 +411,13 @@ namespace rt_tm {
 		}
 	};
 
-	gguf_array_t value_reader<gguf_array_t>::read_value(string_iterator& input) {
-		gguf_metadata_value_type type{ value_reader<gguf_metadata_value_type>::read_value(input) };
-		uint64_t length{ value_reader<uint64_t>::read_value(input) };
+	gguf_array_t value_reader<gguf_array_t>::gather_value(string_iterator& input) {
+		gguf_metadata_value_type type{ value_reader<gguf_metadata_value_type>::gather_value(input) };
+		uint64_t length{ value_reader<uint64_t>::gather_value(input) };
 		gguf_array_t value{};
 		value.type = type;
 		for (size_t x = 0; x < length; ++x) {
-			value.array.emplace_back(value_reader<gguf_metadata_value_variant>::read_value(input, type));
+			value.array.emplace_back(value_reader<gguf_metadata_value_variant>::gather_value(input, type));
 		}
 		return value;
 	}
@@ -459,10 +459,10 @@ namespace rt_tm {
 	};
 
 	template<> struct value_reader<gguf_metadata_kv_t> {
-		RT_TM_FORCE_INLINE static gguf_metadata_kv_t read_value(string_iterator& input) {
+		RT_TM_FORCE_INLINE static gguf_metadata_kv_t gather_value(string_iterator& input) {
 			gguf_metadata_kv_t value{};
-			value.value_type  = value_reader<gguf_metadata_value_type>::read_value(input);
-			value.value.value = value_reader<gguf_metadata_value_variant>::read_value(input, value.value_type);
+			value.value_type  = value_reader<gguf_metadata_value_type>::gather_value(input);
+			value.value.value = value_reader<gguf_metadata_value_variant>::gather_value(input, value.value_type);
 			return value;
 		}
 	};
@@ -475,7 +475,7 @@ namespace rt_tm {
 		uint32_t magic{};
 	};
 
-	RT_TM_FORCE_INLINE void read_u64(const std::string& key, uint64_t& out, const std::map<std::string, gguf_metadata_kv_t>& metadata_kv) {
+	RT_TM_FORCE_INLINE void gather_u64(const std::string& key, uint64_t& out, const std::map<std::string, gguf_metadata_kv_t>& metadata_kv) {
 		auto it = metadata_kv.find(key);
 		if (it == metadata_kv.end())
 			return;
@@ -487,21 +487,21 @@ namespace rt_tm {
 		}
 	};
 
-	RT_TM_FORCE_INLINE void read_f32(const std::string& key, float& out, const std::map<std::string, gguf_metadata_kv_t>& metadata_kv) {
+	RT_TM_FORCE_INLINE void gather_f32(const std::string& key, float& out, const std::map<std::string, gguf_metadata_kv_t>& metadata_kv) {
 		auto it = metadata_kv.find(key);
 		if (it != metadata_kv.end() && std::holds_alternative<float>(it->second.value.value)) {
 			out = std::get<float>(it->second.value.value);
 		}
 	};
 
-	RT_TM_FORCE_INLINE void read_str(const std::string& key, std::string& out, const std::map<std::string, gguf_metadata_kv_t>& metadata_kv) {
+	RT_TM_FORCE_INLINE void gather_str(const std::string& key, std::string& out, const std::map<std::string, gguf_metadata_kv_t>& metadata_kv) {
 		auto it = metadata_kv.find(key);
 		if (it != metadata_kv.end() && std::holds_alternative<gguf_string_t>(it->second.value.value)) {
 			out = std::get<gguf_string_t>(it->second.value.value);
 		}
 	};
 
-	RT_TM_FORCE_INLINE void read_str_array(const std::string& key, std::vector<std::string>& out, const std::map<std::string, gguf_metadata_kv_t>& metadata_kv) {
+	RT_TM_FORCE_INLINE void gather_str_array(const std::string& key, std::vector<std::string>& out, const std::map<std::string, gguf_metadata_kv_t>& metadata_kv) {
 		auto it = metadata_kv.find(key);
 		if (it == metadata_kv.end())
 			return;
@@ -514,7 +514,7 @@ namespace rt_tm {
 		}
 	};
 
-	RT_TM_FORCE_INLINE void read_int_array(const std::string& key, std::vector<int64_t>& out, const std::map<std::string, gguf_metadata_kv_t>& metadata_kv) {
+	RT_TM_FORCE_INLINE void gather_int_array(const std::string& key, std::vector<int64_t>& out, const std::map<std::string, gguf_metadata_kv_t>& metadata_kv) {
 		auto it = metadata_kv.find(key);
 		if (it == metadata_kv.end())
 			return;
@@ -528,7 +528,7 @@ namespace rt_tm {
 	};
 
 	template<> struct value_reader<hyper_parameters> {
-		RT_TM_FORCE_INLINE static hyper_parameters read_value(const std::map<std::string, gguf_metadata_kv_t>& metadata_kv) {
+		RT_TM_FORCE_INLINE static hyper_parameters gather_value(const std::map<std::string, gguf_metadata_kv_t>& metadata_kv) {
 			hyper_parameters value{};
 			std::string architecture{};
 
@@ -536,54 +536,54 @@ namespace rt_tm {
 				architecture = metadata_kv.at("general.architecture").operator gguf_string_t();
 			}
 
-			read_u64(architecture + ".block_count", value.block_count, metadata_kv);
-			read_u64(architecture + ".quantization_version", value.quantization_version, metadata_kv);
-			read_u64(architecture + ".rope_dimension_count", value.rope_dimension_count, metadata_kv);
-			read_u64(architecture + ".feed_forward_length", value.feed_forward_length, metadata_kv);
-			read_u64(architecture + ".embedding_length", value.embedding_length, metadata_kv);
-			read_u64(architecture + ".context_length", value.context_length, metadata_kv);
-			read_u64(architecture + ".head_count_kv", value.head_count_kv, metadata_kv);
-			read_u64(architecture + ".attention.head_count", value.head_count, metadata_kv);
-			read_u64(architecture + ".vocab_size", value.vocab_size, metadata_kv);
-			read_u64("general.file_type", value.file_type, metadata_kv);
-			read_f32(architecture + ".attention.layer_norm_rms_epsilon", value.rms_norm_epsilon, metadata_kv);
-			read_f32(architecture + ".rope.freq_base", value.rope_freq_base, metadata_kv);
-			read_u64("quantize.imatrix.entries_count", value.imatrix_entries_count, metadata_kv);
-			read_u64("quantize.imatrix.chunks_count", value.imatrix_chunks_count, metadata_kv);
-			read_str("quantize.imatrix.file", value.imatrix_file, metadata_kv);
+			gather_u64(architecture + ".block_count", value.block_count, metadata_kv);
+			gather_u64(architecture + ".quantization_version", value.quantization_version, metadata_kv);
+			gather_u64(architecture + ".rope_dimension_count", value.rope_dimension_count, metadata_kv);
+			gather_u64(architecture + ".feed_forward_length", value.feed_forward_length, metadata_kv);
+			gather_u64(architecture + ".embedding_length", value.embedding_length, metadata_kv);
+			gather_u64(architecture + ".context_length", value.context_length, metadata_kv);
+			gather_u64(architecture + ".head_count_kv", value.head_count_kv, metadata_kv);
+			gather_u64(architecture + ".attention.head_count", value.head_count, metadata_kv);
+			gather_u64(architecture + ".vocab_size", value.vocab_size, metadata_kv);
+			gather_u64("general.file_type", value.file_type, metadata_kv);
+			gather_f32(architecture + ".attention.layer_norm_rms_epsilon", value.rms_norm_epsilon, metadata_kv);
+			gather_f32(architecture + ".rope.freq_base", value.rope_freq_base, metadata_kv);
+			gather_u64("quantize.imatrix.entries_count", value.imatrix_entries_count, metadata_kv);
+			gather_u64("quantize.imatrix.chunks_count", value.imatrix_chunks_count, metadata_kv);
+			gather_str("quantize.imatrix.file", value.imatrix_file, metadata_kv);
 
 			return value;
 		}
 	};
 
 	template<> struct value_reader<tokenizer_parameters> {
-		RT_TM_FORCE_INLINE static tokenizer_parameters read_value(const std::map<std::string, gguf_metadata_kv_t>& metadata_kv) {
+		RT_TM_FORCE_INLINE static tokenizer_parameters gather_value(const std::map<std::string, gguf_metadata_kv_t>& metadata_kv) {
 			tokenizer_parameters value{};
 
-			read_u64("tokenizer.ggml.bos_token_id", value.bos_token_id, metadata_kv);
-			read_u64("tokenizer.ggml.eos_token_id", value.eos_token_id, metadata_kv);
-			read_str("tokenizer.chat_template", value.chat_template, metadata_kv);
-			read_str_array("tokenizer.ggml.merges", value.merges, metadata_kv);
-			read_str("tokenizer.ggml.pre", value.pre, metadata_kv);
-			read_str_array("tokenizer.ggml.tokens", value.tokens, metadata_kv);
-			read_int_array("tokenizer.ggml.token_type", value.token_types, metadata_kv);
+			gather_u64("tokenizer.ggml.bos_token_id", value.bos_token_id, metadata_kv);
+			gather_u64("tokenizer.ggml.eos_token_id", value.eos_token_id, metadata_kv);
+			gather_str("tokenizer.chat_template", value.chat_template, metadata_kv);
+			gather_str_array("tokenizer.ggml.merges", value.merges, metadata_kv);
+			gather_str("tokenizer.ggml.pre", value.pre, metadata_kv);
+			gather_str_array("tokenizer.ggml.tokens", value.tokens, metadata_kv);
+			gather_int_array("tokenizer.ggml.token_type", value.token_types, metadata_kv);
 			return value;
 		}
 	};
 
 	template<> struct value_reader<gguf_header_t> {
-		RT_TM_FORCE_INLINE static gguf_header_t read_value(string_iterator& input) {
+		RT_TM_FORCE_INLINE static gguf_header_t gather_value(string_iterator& input) {
 			gguf_header_t value{};
-			value.magic = value_reader<uint32_t>::read_value(input);
+			value.magic = value_reader<uint32_t>::gather_value(input);
 			if (value.magic != 0x46554747) {
 				throw std::runtime_error{ "Sorry, but that magic value was incorrect!" };
 			}
-			value.version			= value_reader<uint32_t>::read_value(input);
-			value.tensor_count		= value_reader<uint64_t>::read_value(input);
-			value.metadata_kv_count = value_reader<uint64_t>::read_value(input);
+			value.version			= value_reader<uint32_t>::gather_value(input);
+			value.tensor_count		= value_reader<uint64_t>::gather_value(input);
+			value.metadata_kv_count = value_reader<uint64_t>::gather_value(input);
 			for (size_t x = 0; x < value.metadata_kv_count; ++x) {
-				std::string new_string		  = value_reader<gguf_string_t>::read_value(input);
-				value.metadata_kv[new_string] = value_reader<gguf_metadata_kv_t>::read_value(input);
+				std::string new_string		  = value_reader<gguf_string_t>::gather_value(input);
+				value.metadata_kv[new_string] = value_reader<gguf_metadata_kv_t>::gather_value(input);
 			}
 			return value;
 		}
@@ -602,15 +602,15 @@ namespace rt_tm {
 	};
 
 	template<> struct value_reader<gguf_tensor_info_t> {
-		RT_TM_FORCE_INLINE static gguf_tensor_info_t read_value(string_iterator& input) {
+		RT_TM_FORCE_INLINE static gguf_tensor_info_t gather_value(string_iterator& input) {
 			gguf_tensor_info_t value{};
-			value.name		   = value_reader<gguf_string_t>::read_value(input);
-			value.n_dimensions = value_reader<uint32_t>::read_value(input);
+			value.name		   = value_reader<gguf_string_t>::gather_value(input);
+			value.n_dimensions = value_reader<uint32_t>::gather_value(input);
 			for (size_t x = 0; x < value.n_dimensions; ++x) {
-				value.dimensions.emplace_back(value_reader<uint64_t>::read_value(input));
+				value.dimensions.emplace_back(value_reader<uint64_t>::gather_value(input));
 			}
-			value.type	 = static_cast<data_type>(value_reader<uint32_t>::read_value(input));
-			value.offset = value_reader<uint64_t>::read_value(input);
+			value.type	 = static_cast<data_type>(value_reader<uint32_t>::gather_value(input));
+			value.offset = value_reader<uint64_t>::gather_value(input);
 			return value;
 		}
 	};
@@ -640,10 +640,10 @@ namespace rt_tm {
 	}
 
 	struct gguf_file_t {
-		gguf_header_t header{};
 		std::vector<gguf_tensor_info_t> tensor_infos{};
-		std::vector<uint8_t> _padding{};
 		std::vector<uint8_t> tensor_data{};
+		std::vector<uint8_t> _padding{};
+		gguf_header_t header{};
 	};
 
 	enum class model_format { gguf = 1 };
@@ -660,12 +660,12 @@ namespace rt_tm {
 			string_iterator ptr{};
 			ptr.first_index	 = data_val.data();
 			ptr.length		 = data_val.size();
-			gguf_file.header = value_reader<gguf_header_t>::read_value(ptr);
+			gguf_file.header = value_reader<gguf_header_t>::gather_value(ptr);
 			for (size_t x = 0; x < gguf_file.header.tensor_count; ++x) {
-				gguf_file.tensor_infos.emplace_back(value_reader<gguf_tensor_info_t>::read_value(ptr));
+				gguf_file.tensor_infos.emplace_back(value_reader<gguf_tensor_info_t>::gather_value(ptr));
 			}
-			return_value.hparams		  = value_reader<hyper_parameters>::read_value(gguf_file.header.metadata_kv);
-			return_value.tokenizer_params = value_reader<tokenizer_parameters>::read_value(gguf_file.header.metadata_kv);
+			return_value.hparams		  = value_reader<hyper_parameters>::gather_value(gguf_file.header.metadata_kv);
+			return_value.tokenizer_params = value_reader<tokenizer_parameters>::gather_value(gguf_file.header.metadata_kv);
 			sort_tensor_infos(gguf_file.tensor_infos);
 			size_t offset{};
 			for (size_t x = 0; x < gguf_file.header.tensor_count; ++x) {

@@ -48,8 +48,7 @@ namespace rt_tm {
 		thread_pool<indices> thread_pool_val{};
 		op_graph_config config_val{};
 
-		RT_TM_FORCE_INLINE op_graph_base(op_graph_config graph_config) : config_val{ graph_config } {
-			thread_pool_val.execute_tasks();
+		RT_TM_FORCE_INLINE op_graph_base(op_graph_config graph_config) : config_val{ graph_config }, thread_pool_val{ graph_config.num_threads } {
 		};
 
 		RT_TM_FORCE_INLINE void reset_state() {

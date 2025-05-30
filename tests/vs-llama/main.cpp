@@ -596,7 +596,21 @@ struct test_struct {
 	mutable std::vector<int32_t>* testPtr{};
 };
 
+struct alignas(64) test_struc02 {
+	bool test_val{};
+};
+
 int main(int argc, char** argv) {
+	std::vector<test_struc02> vector{};
+	vector.resize(5);
+	uintptr_t ptr01{ reinterpret_cast<uintptr_t>(&vector[0]) };
+	uintptr_t ptr02{ reinterpret_cast<uintptr_t>(&vector[1]) };
+	std::cout << "DISTANCE: " << ptr02 - ptr01 << std::endl;
+	std::cout << "ADDRESS 01: " << &vector[0] << std::endl;
+	std::cout << "ADDRESS 02: " << &vector[1] << std::endl;
+	std::cout << "ADDRESS 03: " << &vector[2] << std::endl;
+	std::cout << "ADDRESS 04: " << &vector[3] << std::endl;
+	std::cout << "ADDRESS 05: " << &vector[4] << std::endl;
 	static constexpr test_struct test{};
 	try {
 		static constexpr rt_tm::global_config global_config{ .exceptions = true };
