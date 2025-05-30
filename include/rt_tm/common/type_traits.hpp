@@ -100,7 +100,7 @@ namespace rt_tm {
 		inline static constexpr bool is_quantized{ true };
 		inline static constexpr uint64_t block_size{ 0 };
 		inline static constexpr uint64_t n_rows{ 0 };
-	};	
+	};
 
 	template<data_type type> struct type_traits {};
 
@@ -166,9 +166,9 @@ namespace rt_tm {
 						break;
 					case data_type::int_64:
 						array_of_traits[index].type_name = "i64";
-						break;					
+						break;
 					case data_type::float_16:
-						array_of_traits[index].type_name	  = "f16";
+						array_of_traits[index].type_name = "f16";
 						break;
 					case data_type::float_32:
 						array_of_traits[index].type_name = "f32";
@@ -177,7 +177,7 @@ namespace rt_tm {
 						array_of_traits[index].type_name = "f64";
 						break;
 					case data_type::q8_0:
-						array_of_traits[index].type_name	  = "q8_0";
+						array_of_traits[index].type_name = "q8_0";
 						break;
 					case data_type::count:
 					default:

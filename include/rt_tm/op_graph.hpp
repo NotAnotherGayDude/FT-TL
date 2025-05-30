@@ -49,21 +49,23 @@ namespace rt_tm {
 		op_graph_config config_val{};
 
 		RT_TM_FORCE_INLINE op_graph_base(op_graph_config graph_config) : config_val{ graph_config }, thread_pool_val{ graph_config.num_threads } {
-		};
+		}
 
 		RT_TM_FORCE_INLINE void reset_state() {
 			thread_pool_val.reset_state(ops, *this);
-		};
+		}
 
 		RT_TM_FORCE_INLINE void execute_tasks() {
 			thread_pool_val.execute_tasks();
-		};
+		}
 
 		RT_TM_FORCE_INLINE ~op_graph_base() {
 		}
 
 	  protected:
-		memory_buffer<config, uint8_t> buffer{};
+		memory_buffer<config, uint8_t> op_params_buffer{};
+		memory_buffer<config, uint8_t> scratch_buffer{};
+		memory_buffer<config, uint8_t> tensor_buffer{};
 		std::vector<op_core> ops{};
 	};
 
@@ -96,6 +98,40 @@ namespace rt_tm {
 				  }
 				  return return_Value;
 			  }() } {
+		}
+
+		RT_TM_FORCE_INLINE void reset_state() {
+			switch (cpu_arch_index_holder::cpu_arch_index) {
+				case 0: {
+					static_cast<op_graph_base<config, impl_indices{ .cpu_index = 0 }>*>(op_graph_val.get())->reset_state();
+					break;
+				}
+				case 1: {
+					static_cast<op_graph_base<config, impl_indices{ .cpu_index = 1 }>*>(op_graph_val.get())->reset_state();
+					break;
+				}
+				case 2: {
+					static_cast<op_graph_base<config, impl_indices{ .cpu_index = 2 }>*>(op_graph_val.get())->reset_state();
+					break;
+				}
+			}
+		}
+
+		RT_TM_FORCE_INLINE void execute_tasks() {
+			switch (cpu_arch_index_holder::cpu_arch_index) {
+				case 0: {
+					static_cast<op_graph_base<config, impl_indices{ .cpu_index = 0 }>*>(op_graph_val.get())->execute_tasks();
+					break;
+				}
+				case 1: {
+					static_cast<op_graph_base<config, impl_indices{ .cpu_index = 1 }>*>(op_graph_val.get())->execute_tasks();
+					break;
+				}
+				case 2: {
+					static_cast<op_graph_base<config, impl_indices{ .cpu_index = 2 }>*>(op_graph_val.get())->execute_tasks();
+					break;
+				}
+			}
 		}
 
 		RT_TM_FORCE_INLINE void init(op_graph_config graph_config = {}) {

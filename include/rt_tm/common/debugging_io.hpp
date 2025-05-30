@@ -56,13 +56,14 @@ namespace rt_tm {
 
 			const std::streamsize size = file.tellg();
 			file.seekg(0, std::ios::beg);
-
-			contents.resize(static_cast<size_t>(size));
-			if (!file.read(contents.data(), size)) {
-				if constexpr (exceptions) {
-					throw std::runtime_error("Failed to read file: " + filePath.string());
-				} else {
-					std::cerr << "Failed to read file: " + filePath.string() << std::endl;
+			if (size != -1) {
+				contents.resize(static_cast<size_t>(size));
+				if (!file.read(contents.data(), size)) {
+					if constexpr (exceptions) {
+						throw std::runtime_error("Failed to read file: " + filePath.string());
+					} else {
+						std::cerr << "Failed to read file: " + filePath.string() << std::endl;
+					}
 				}
 			}
 		}
@@ -110,6 +111,132 @@ namespace rt_tm {
 		}
 	};
 
-	template<typename value_type> struct debugging_io;
+	static constexpr size_t FNV_OFFSET_BASIS_64{ 0xcbf29ce484222325ULL };
+	static constexpr size_t FNV_PRIME_64{ 0x100000001b3ULL };
 
+	RT_TM_FORCE_INLINE uint64_t fnv1a_hash64(const void* data, size_t size) {
+		const uint8_t* bytes = static_cast<const uint8_t*>(data);
+		uint64_t hash		 = FNV_OFFSET_BASIS_64;
+
+		for (size_t i = 0; i < size; ++i) {
+			hash ^= bytes[i];
+			hash *= FNV_PRIME_64;
+		}
+
+		return hash;
+	}
+
+	struct intermediary_tensor {
+		static constexpr size_t tensor_len_size{ sizeof(uint64_t) };
+		static constexpr size_t name_len_size{ sizeof(uint64_t) };
+		static constexpr size_t dims_size{ sizeof(size_t) * 4 };
+		static constexpr size_t type_size{ sizeof(uint32_t) };
+		std::vector<uint8_t> data{};
+		array<size_t, 4> dims{};
+		std::string name{};
+		data_type type{};
+		op_type op{};
+
+		intermediary_tensor() noexcept = default;
+
+		intermediary_tensor(const model_core& other) {
+			size_t nbytes{ other.core_total_byte_size() };
+			data.resize(nbytes);
+			std::memcpy(data.data(), other.data.data(), nbytes);
+			for (size_t x = 0; x < 4; ++x) {
+				dims[x] = other.dims[x];
+			}
+			type = other.type;
+			name = other.name;
+		}
+
+		RT_TM_FORCE_INLINE bool operator==(const intermediary_tensor& lhs) const {
+			if (data != lhs.data) {
+				for (size_t x = 0; x < lhs.data.size() && x < data.size(); ++x) {
+					if (data[x] != lhs.data[x]) {
+						//std::cout << "Lhs: " << data[x] << ", " << ", RHS: " << lhs.data[x] << std::endl;
+					}
+				}
+			}
+			return data == lhs.data && name == lhs.name && type == lhs.type && dims == lhs.dims;
+		}
+
+		/*
+		intermediary_tensor(const ggml_tensor& other) {
+			size_t nbytes{ ggml_nbytes(&other) };
+			data.resize(nbytes);
+			std::memcpy(data.data(), other.data, nbytes);
+			for (size_t x = 0; x < 4; ++x) {
+				dims[x] = other.ne[x];
+			}
+			type = static_cast<data_type>(other.type);
+			name = std::string{other.name};
+		}*/
+	};
+
+	RT_TM_FORCE_INLINE std::string serialize_tensor(const intermediary_tensor& other) {
+		size_t string_size{ intermediary_tensor::type_size + intermediary_tensor::name_len_size + intermediary_tensor::tensor_len_size + intermediary_tensor::dims_size +
+			other.data.size() + other.name.size() };
+		std::string return_value{};
+		return_value.resize(string_size);
+		size_t current_offset{};
+		std::memcpy(return_value.data(), &other.type, intermediary_tensor::type_size);
+		current_offset += sizeof(other.type);
+		std::memcpy(return_value.data() + current_offset, other.dims.data(), intermediary_tensor::dims_size);
+		current_offset += intermediary_tensor::dims_size;
+		uint64_t name_length{ other.name.size() };
+		std::memcpy(return_value.data() + current_offset, &name_length, intermediary_tensor::name_len_size);
+		current_offset += intermediary_tensor::name_len_size;
+		std::memcpy(return_value.data() + current_offset, other.name.data(), name_length);
+		current_offset += name_length;
+		uint64_t tensor_length{ other.data.size() };
+		std::memcpy(return_value.data() + current_offset, &tensor_length, intermediary_tensor::tensor_len_size);
+		current_offset += intermediary_tensor::tensor_len_size;
+		std::memcpy(return_value.data() + current_offset, other.data.data(), tensor_length);
+		return return_value;
+	}
+
+	RT_TM_FORCE_INLINE intermediary_tensor parse_tensor(const std::string& other) {
+		intermediary_tensor return_value{};
+		size_t current_offset{};
+		if (other.size() > 0) {
+			std::memcpy(&return_value.type, other.data() + current_offset, intermediary_tensor::type_size);
+			current_offset += intermediary_tensor::type_size;
+			std::memcpy(return_value.dims.data(), other.data() + current_offset, intermediary_tensor::dims_size);
+			current_offset += intermediary_tensor::dims_size;
+			uint64_t name_length{};
+			std::memcpy(&name_length, other.data() + current_offset, intermediary_tensor::name_len_size);
+			current_offset += intermediary_tensor::name_len_size;
+			return_value.name.resize(name_length);
+			std::memcpy(return_value.name.data(), other.data() + current_offset, name_length);
+			current_offset += name_length;
+			uint64_t tensor_length{};
+			std::memcpy(&tensor_length, other.data() + current_offset, intermediary_tensor::tensor_len_size);
+			current_offset += intermediary_tensor::tensor_len_size;
+			return_value.data.resize(tensor_length);
+			std::memcpy(return_value.data.data(), other.data() + current_offset, tensor_length);
+			current_offset += tensor_length;
+		}
+		return return_value;
+	}
+
+	template<bool exceptions, typename value_type> struct debugging_io;
+
+	template<bool exceptions> struct debugging_io<exceptions, struct model_core> {
+		RT_TM_FORCE_INLINE static void load_and_compare_tensors(const model_core& core) {
+			auto new_string = file_loader<exceptions>{ core.name + ".safetensor" }.operator const std::string&();
+			intermediary_tensor new_tensor{ parse_tensor(new_string) };
+			intermediary_tensor save_tensor{ core };
+			if (new_tensor != save_tensor) {
+				std::cout << "Failed on Tensor: " << new_tensor.name << std::endl;
+			} else {
+				std::cout << "Success on Tensor: " << new_tensor.name << std::endl;
+			}
+		}
+		RT_TM_FORCE_INLINE static void save_tensor(const model_core& core) {
+			intermediary_tensor save_tensor{ core };
+			std::string save_file{ serialize_tensor(save_tensor) };
+			file_saver<exceptions>{ core.name + ".safetensor", save_file.data(), save_file.size() };
+		}
+	};
 }

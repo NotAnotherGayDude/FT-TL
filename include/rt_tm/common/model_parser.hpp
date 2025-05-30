@@ -252,85 +252,57 @@ namespace rt_tm {
 	}
 
 	gguf_metadata_value_t& gguf_metadata_value_t::operator=(const gguf_metadata_value_t& other) noexcept {
-		switch (other.value.index()) {
-			case 0: {
-				value.emplace<float>(std::get<float>(other.value));
-				break;
-			}
-			case 1: {
-				value.emplace<uint64_t>(std::get<uint64_t>(other.value));
-				break;
-			}
-			case 2: {
-				value.emplace<int64_t>(std::get<int64_t>(other.value));
-				break;
-			}
-			case 3: {
-				value.emplace<double>(std::get<double>(other.value));
-				break;
-			}
-			case 4: {
-				value.emplace<bool>(std::get<bool>(other.value));
-				break;
-			}
-			case 5: {
-				value.emplace<gguf_string_t>(std::get<gguf_string_t>(other.value));
-				break;
-			}
-			case 6: {
-				if (std::holds_alternative<gguf_array_t*>(value)) {
-					if (std::get<gguf_array_t*>(value)) {
-						delete std::get<gguf_array_t*>(value);
-					}
+		if (std::holds_alternative<float>(other.value)) {
+			value.emplace<float>(std::get<float>(other.value));
+		} else if (std::holds_alternative<uint64_t>(other.value)) {
+			value.emplace<uint64_t>(std::get<uint64_t>(other.value));
+		} else if (std::holds_alternative<int64_t>(other.value)) {
+			value.emplace<int64_t>(std::get<int64_t>(other.value));
+		} else if (std::holds_alternative<double>(other.value)) {
+			value.emplace<double>(std::get<double>(other.value));
+		} else if (std::holds_alternative<bool>(other.value)) {
+			value.emplace<bool>(std::get<bool>(other.value));
+		} else if (std::holds_alternative<gguf_string_t>(other.value)) {
+			value.emplace<gguf_string_t>(std::get<gguf_string_t>(other.value));
+		} else if (std::holds_alternative<gguf_array_t*>(other.value)) {
+			if (std::holds_alternative<gguf_array_t*>(value)) {
+				if (std::get<gguf_array_t*>(value)) {
+					delete std::get<gguf_array_t*>(value);
 				}
-				value.emplace<gguf_array_t*>(new gguf_array_t{ *std::get<gguf_array_t*>(other.value) });
-				break;
 			}
+			value.emplace<gguf_array_t*>(new gguf_array_t{ *std::get<gguf_array_t*>(other.value) });
 		}
 		return *this;
 	};
 
 	gguf_metadata_value_t::gguf_metadata_value_t(const gguf_metadata_value_variant& other) noexcept {
-		switch (other.index()) {
-			case 0: {
-				value.emplace<float>(std::get<float>(other));
-				break;
-			}
-			case 1: {
-				value.emplace<uint64_t>(std::get<uint64_t>(other));
-				break;
-			}
-			case 2: {
-				value.emplace<int64_t>(std::get<int64_t>(other));
-				break;
-			}
-			case 3: {
-				value.emplace<double>(std::get<double>(other));
-				break;
-			}
-			case 4: {
-				value.emplace<bool>(std::get<bool>(other));
-				break;
-			}
-			case 5: {
-				value.emplace<gguf_string_t>(std::get<gguf_string_t>(other));
-				break;
-			}
-			case 6: {
-				if (std::holds_alternative<gguf_array_t*>(value)) {
-					if (std::get<gguf_array_t*>(value)) {
-						delete std::get<gguf_array_t*>(value);
-					}
-				}
-				value.emplace<gguf_array_t*>(new gguf_array_t{ *std::get<gguf_array_t*>(other) });
-				break;
-			}
+		if (std::holds_alternative<float>(other)) {
+			value.emplace<float>(std::get<float>(other));
+		} else if (std::holds_alternative<uint64_t>(other)) {
+			value.emplace<uint64_t>(std::get<uint64_t>(other));
+		} else if (std::holds_alternative<int64_t>(other)) {
+			value.emplace<int64_t>(std::get<int64_t>(other));
+		} else if (std::holds_alternative<double>(other)) {
+			value.emplace<double>(std::get<double>(other));
+		} else if (std::holds_alternative<bool>(other)) {
+			value.emplace<bool>(std::get<bool>(other));
+		} else if (std::holds_alternative<gguf_string_t>(other)) {
+			value.emplace<gguf_string_t>(std::get<gguf_string_t>(other));
+		} else if (std::holds_alternative<gguf_array_t*>(other)) {
+			value.emplace<gguf_array_t*>(new gguf_array_t{ *std::get<gguf_array_t*>(other) });
 		}
 	};
 
 	template<> struct value_reader<gguf_string_t> {
 		RT_TM_FORCE_INLINE static gguf_string_t gather_value(string_iterator& input) {
 			uint64_t length{ value_reader<uint64_t>::gather_value(input) };
+			constexpr uint64_t MAX_STRING_LENGTH = 1024 * 1024 * 100;
+			if (length > MAX_STRING_LENGTH) {
+				throw std::runtime_error{ "String length exceeds maximum allowed size!" };
+			}
+			if (length == 0) {
+				return gguf_string_t{};
+			}
 			gguf_string_t value{};
 			value.resize(length);
 			if (input.current_index + length < input.length) {
@@ -414,8 +386,13 @@ namespace rt_tm {
 	gguf_array_t value_reader<gguf_array_t>::gather_value(string_iterator& input) {
 		gguf_metadata_value_type type{ value_reader<gguf_metadata_value_type>::gather_value(input) };
 		uint64_t length{ value_reader<uint64_t>::gather_value(input) };
+		constexpr uint64_t MAX_ARRAY_LENGTH = 1024 * 1024;
+		if (length > MAX_ARRAY_LENGTH) {
+			throw std::runtime_error{ "Array length exceeds maximum allowed size!" };
+		}
 		gguf_array_t value{};
 		value.type = type;
+		value.array.reserve(length);
 		for (size_t x = 0; x < length; ++x) {
 			value.array.emplace_back(value_reader<gguf_metadata_value_variant>::gather_value(input, type));
 		}
@@ -578,9 +555,17 @@ namespace rt_tm {
 			if (value.magic != 0x46554747) {
 				throw std::runtime_error{ "Sorry, but that magic value was incorrect!" };
 			}
-			value.version			= value_reader<uint32_t>::gather_value(input);
-			value.tensor_count		= value_reader<uint64_t>::gather_value(input);
-			value.metadata_kv_count = value_reader<uint64_t>::gather_value(input);
+			value.version						  = value_reader<uint32_t>::gather_value(input);
+			value.tensor_count					  = value_reader<uint64_t>::gather_value(input);
+			value.metadata_kv_count				  = value_reader<uint64_t>::gather_value(input);
+			constexpr uint64_t MAX_TENSOR_COUNT	  = 100000;
+			constexpr uint64_t MAX_METADATA_COUNT = 10000;
+			if (value.tensor_count > MAX_TENSOR_COUNT) {
+				throw std::runtime_error{ "Tensor count exceeds reasonable maximum!" };
+			}
+			if (value.metadata_kv_count > MAX_METADATA_COUNT) {
+				throw std::runtime_error{ "Metadata count exceeds reasonable maximum!" };
+			}
 			for (size_t x = 0; x < value.metadata_kv_count; ++x) {
 				std::string new_string		  = value_reader<gguf_string_t>::gather_value(input);
 				value.metadata_kv[new_string] = value_reader<gguf_metadata_kv_t>::gather_value(input);
@@ -589,25 +574,30 @@ namespace rt_tm {
 		}
 	};
 
-	uint64_t align_offset(uint64_t offset, size_t ALIGNMENT) {
-		return offset + (ALIGNMENT - (offset % ALIGNMENT)) % ALIGNMENT;
-	}
-
 	struct gguf_tensor_info_t {
-		gguf_string_t name{};
-		uint32_t n_dimensions{};
 		std::vector<uint64_t> dimensions{};
-		data_type type{};
+		uint32_t n_dimensions{};
+		gguf_string_t name{};
 		uint64_t offset{};
+		data_type type{};
 	};
 
 	template<> struct value_reader<gguf_tensor_info_t> {
 		RT_TM_FORCE_INLINE static gguf_tensor_info_t gather_value(string_iterator& input) {
 			gguf_tensor_info_t value{};
-			value.name		   = value_reader<gguf_string_t>::gather_value(input);
-			value.n_dimensions = value_reader<uint32_t>::gather_value(input);
+			value.name						  = value_reader<gguf_string_t>::gather_value(input);
+			value.n_dimensions				  = value_reader<uint32_t>::gather_value(input);
+			constexpr uint32_t MAX_DIMENSIONS = 8;
+			if (value.n_dimensions > MAX_DIMENSIONS) {
+				throw std::runtime_error{ "Tensor dimensions exceed maximum!" };
+			}
 			for (size_t x = 0; x < value.n_dimensions; ++x) {
-				value.dimensions.emplace_back(value_reader<uint64_t>::gather_value(input));
+				uint64_t dim					= value_reader<uint64_t>::gather_value(input);
+				constexpr uint64_t MAX_DIM_SIZE = 1ULL << 32;
+				if (dim > MAX_DIM_SIZE) {
+					throw std::runtime_error{ "Tensor dimension size too large!" };
+				}
+				value.dimensions.emplace_back(dim);
 			}
 			value.type	 = static_cast<data_type>(value_reader<uint32_t>::gather_value(input));
 			value.offset = value_reader<uint64_t>::gather_value(input);
@@ -646,40 +636,70 @@ namespace rt_tm {
 		gguf_header_t header{};
 	};
 
+	uint64_t align_offset(uint64_t offset, uint64_t alignment = 1) {
+		alignment = alignment == 0 ? 1 : alignment;
+		return offset + (alignment - (offset % alignment)) % alignment;
+	}
+
 	enum class model_format { gguf = 1 };
 
 	template<global_config config, model_format type> struct model_parser;
 
 	template<global_config config> struct model_parser<config, model_format::gguf> {
 		static_assert((std::endian::native == std::endian::little), "Sorry, but big-endian is not yet supported by the library");
+
 		RT_TM_FORCE_INLINE static model_graph parse_model(std::string_view path) {
 			std::string data_val{};
 			model_graph return_value{};
 			data_val = file_loader<config.exceptions>{ path };
 			gguf_file_t gguf_file{};
 			string_iterator ptr{};
-			ptr.first_index	 = data_val.data();
-			ptr.length		 = data_val.size();
+			ptr.first_index = data_val.data();
+			ptr.length		= data_val.size();
+
 			gguf_file.header = value_reader<gguf_header_t>::gather_value(ptr);
+
 			for (size_t x = 0; x < gguf_file.header.tensor_count; ++x) {
 				gguf_file.tensor_infos.emplace_back(value_reader<gguf_tensor_info_t>::gather_value(ptr));
 			}
+
+			auto calculate_tensor_size = [](const gguf_tensor_info_t& tensor) -> size_t {
+				model_core temp_core{};
+				temp_core.type = tensor.type;
+				for (size_t i = 0; i < tensor.n_dimensions; ++i) {
+					temp_core.dims[i] = tensor.dimensions[i];
+				}
+				return temp_core.core_total_byte_size();
+			};
+
+			size_t max_tensor_end = 0;
+			for (const auto& tensor: gguf_file.tensor_infos) {
+				size_t tensor_size = calculate_tensor_size(tensor);
+				size_t tensor_end  = tensor.offset + tensor_size;
+				max_tensor_end	   = std::max(max_tensor_end, tensor_end);
+			}
+			size_t tensor_data_start = data_val.size() - max_tensor_end;
+			uint64_t alignment{ 32 };
+			gather_u64("alignment", alignment, gguf_file.header.metadata_kv);
+
 			return_value.hparams		  = value_reader<hyper_parameters>::gather_value(gguf_file.header.metadata_kv);
 			return_value.tokenizer_params = value_reader<tokenizer_parameters>::gather_value(gguf_file.header.metadata_kv);
 			sort_tensor_infos(gguf_file.tensor_infos);
-			size_t offset{};
 			for (size_t x = 0; x < gguf_file.header.tensor_count; ++x) {
 				model_core new_core{};
-				new_core.name	 = gguf_file.tensor_infos[x].name;
+				new_core.name = gguf_file.tensor_infos[x].name;
 				new_core.type = gguf_file.tensor_infos[x].type;
-				std::cout << std::hex << new_core.name << std::endl;
-				size_t current_size{ new_core.core_total_byte_size() };
 				for (size_t y = 0; y < gguf_file.tensor_infos[x].n_dimensions; ++y) {
 					new_core.dims[y] = gguf_file.tensor_infos[x].dimensions[y];
 				}
+				size_t current_size{ new_core.core_total_byte_size() };
 				new_core.data.resize(current_size);
-				std::memcpy(new_core.data.data(), ptr.first_index + ptr.current_index + gguf_file.tensor_infos[x].offset, current_size);
+				size_t absolute_offset = tensor_data_start + gguf_file.tensor_infos[x].offset;
+				std::memcpy(new_core.data.data(), data_val.data() + absolute_offset, current_size);
+				return_value.model_cores.emplace_back(new_core);
+				debugging_io<config.exceptions, model_core>::load_and_compare_tensors(new_core);
 			}
+
 			return return_value;
 		}
 	};

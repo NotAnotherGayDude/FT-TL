@@ -33,7 +33,7 @@ namespace rt_tm {
 
 	struct model_core {
 		std::vector<uint8_t, alloc_wrapper<uint8_t>> data{};
-		array<size_t, 4> dims{ 1, 1, 1, 1, 1 };
+		array<size_t, 4> dims{ 1, 1, 1, 1 };
 		std::string name{};
 		data_type type{};
 
@@ -42,7 +42,11 @@ namespace rt_tm {
 		}
 
 		RT_TM_FORCE_INLINE size_t core_total_byte_size() const {
-			return core_total_dims() * core_type_size();
+			size_t total_elements = core_total_dims();
+			size_t block_size	  = core_block_size();
+			size_t type_size	  = core_type_size();
+			size_t num_blocks = (total_elements + block_size - 1) / block_size;
+			return num_blocks * type_size;
 		}
 
 		RT_TM_INLINE size_t core_block_size() const {

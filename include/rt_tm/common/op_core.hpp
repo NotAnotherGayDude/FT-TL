@@ -27,11 +27,14 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <rt_tm/common/common.hpp>
 #include <rt_tm/common/model_core.hpp>
+#include <rt_tm/common/param_api.hpp>
 
 namespace rt_tm {
 
-	struct op_core {
+	struct op_core : public param_api<op_core> {
 		size_t scheduler_depth{};
+		model_core* core{};
+		void* aux_params{};
 	};
 
 }

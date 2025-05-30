@@ -259,9 +259,9 @@ int32_t run_llama(int argc, char** argv, std::string& output, size_t& token_coun
 	bool display			  = true;
 	bool need_to_save_session = !path_session.empty() && n_matching_session_tokens < embd_inp.size();
 
-	int n_past			   = 0;
-	int n_remain		   = params.n_predict;
-	int n_consumed		   = 0;
+	int n_past	   = 0;
+	int n_remain   = params.n_predict;
+	int n_consumed = 0;
 
 	std::vector<int> input_tokens;
 	g_input_tokens = &input_tokens;
@@ -613,11 +613,12 @@ int main(int argc, char** argv) {
 	std::cout << "ADDRESS 05: " << &vector[4] << std::endl;
 	static constexpr test_struct test{};
 	try {
-		static constexpr rt_tm::global_config global_config{ .exceptions = true };
+		static constexpr rt_tm::global_config global_config{ .exceptions = false };
 		rt_tm::model_graph model_graph = rt_tm::core<global_config>::parse_model_graph<rt_tm::model_format::gguf>(argv[2]);
 		rt_tm::op_graph_config graph_config{ .num_threads = 12 };
 		rt_tm::op_graph<global_config> op_graph{ rt_tm::core<global_config>::create_op_graph(graph_config, model_graph) };
 		std::string return_value{};
+		op_graph.execute_tasks();
 		bnch_swt::benchmark_stage<"rt_tm-vs_llama.cpp", 2, 1, true, "Token">::runBenchmark<"llama.cpp", "cyan">([&] {
 			return_value.clear();
 			size_t token_count{};

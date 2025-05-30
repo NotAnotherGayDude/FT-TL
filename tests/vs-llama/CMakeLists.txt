@@ -55,7 +55,7 @@ FetchContent_MakeAvailable(benchmarksuite)
 add_executable(
   "rt_tm_performance" 
   "./main.cpp"
-)
+ "save_tensor.h")
 
 add_subdirectory("./common")
 

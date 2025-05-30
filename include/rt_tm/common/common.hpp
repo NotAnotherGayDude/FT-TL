@@ -26,6 +26,7 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma once
 
 #include <cstdint>
+#include <rt_tm/common/concepts.hpp>
 
 namespace rt_tm {
 
@@ -42,15 +43,11 @@ namespace rt_tm {
 	};
 
 	enum class op_type : uint32_t {
-		unset	 = 0,
-		noop	 = 1,
-		mul_mat	 = 2,
-		add		 = 3,
-		sub		 = 4,
-		int_16	 = 5,
-		int_32	 = 6,
-		int_64	 = 7,
-		float_64 = 8,
+		unset	= 0,
+		noop	= 1,
+		mul_mat = 2,
+		add		= 3,
+		sub		= 4,
 		count,
 	};
 
