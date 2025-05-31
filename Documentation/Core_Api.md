@@ -1,6 +1,6 @@
 # 🧠 FT-TL Core API
 
-This document outlines the **entry-point interface** for working with parsed model graphs and constructing runtime execution graphs in FT-TL. The `core` template defines the foundational operations for converting static model data into a ready-to-run graph representation.
+This document outlines the **entry-point interface** for working with parsed model graphs and constructing runtime execution graphs in FT-TL. The `harbinger` template defines the foundational operations for converting static model data into a ready-to-run graph representation.
 
 ---
 
@@ -8,7 +8,7 @@ This document outlines the **entry-point interface** for working with parsed mod
 
 ```cpp
 template<global_config config>
-struct core {
+struct harbinger {
     static model_graph parse_model_graph(std::string_view path);
     static op_graph<config> create_op_graph(op_graph_config, const model_graph&);
 };
@@ -43,7 +43,7 @@ Takes a `model_graph` and builds an `op_graph<config>`.
 
 **Think of it as:**
 
-> “Igniting the raw blueprint into a hot execution core.”
+> “Igniting the raw blueprint into a hot execution harbinger.”
 
 ---
 

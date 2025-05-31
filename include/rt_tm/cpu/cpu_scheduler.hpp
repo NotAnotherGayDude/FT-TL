@@ -33,7 +33,7 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 namespace rt_tm {
 
 	template<typename derived_type> struct cpu_scheduler {
-		template<typename cas_queue_type> RT_TM_FORCE_INLINE void schedule_tasks(cas_queue_type& tasks, std::vector<op_core>& ops) {};
+		RT_TM_FORCE_INLINE void schedule_tasks(std::vector<op_core>& ops) {};
 
 	};
 

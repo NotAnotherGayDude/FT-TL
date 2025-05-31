@@ -1,0 +1,22 @@
+{
+  "version": "0.2.1",
+  "defaults": {},
+  "configurations": [
+    {
+      "type": "default",
+      "project": "CMakeLists.txt",
+      "projectTarget": "rt_tm_performance.exe (tests\\vs-llama\\rt_tm_performance.exe)",
+      "name": "rt_tm_performance.exe (tests\\vs-llama\\rt_tm_performance.exe)",
+      "args": [
+        "-m C:\\Users\\Chris\\source\\repos\\oi_engine\\models\\Meta-Llama-3.1-8B-Instruct-Q8_0.gguf -p \"What is the meaning of life?\" -s 0 -n 8 -no-cnv -t 1"
+      ]
+    },
+    {
+      "type": "dll",
+      "exe": "",
+      "project": "CMakeLists.txt",
+      "projectTarget": "ggml.dll (bin\\ggml.dll)",
+      "name": "ggml.dll (bin\\ggml.dll)"
+    }
+  ]
+}

@@ -30,16 +30,18 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace rt_tm {
 
-	template<size_t schedule_depth> struct alignas(64) cpu_op_core {
+	struct alignas(64) cpu_op_core {
 		RT_TM_FORCE_INLINE cpu_op_core(op_core other) {};
-		alignas(64) std::atomic_int64_t* dependent_op{};
-		alignas(64) const size_t thread_count{};
-		alignas(64) std::atomic_int64_t flag{};//Initialized to however many -thread_counts are within the op that this one depends on.
+		alignas(64) std::atomic_int counter{ -1 };
 	};
 
-	template<size_t schedule_depth> struct alignas(64) cpu_op_core_thread {
-		alignas(64) cpu_op_core<schedule_depth>* op_core{};
+	struct alignas(64) cpu_op_core_thread {
+		alignas(64) std::atomic_int* dependent_op_counter{};
+		alignas(64) const size_t dependent_thread_count{};
+		alignas(64) const size_t thread_index{};
+		alignas(64) const size_t thread_count{};
 		alignas(64) std::atomic_flag flag{};
+		alignas(64) cpu_op_core* op_core{};
 	};
 
 }

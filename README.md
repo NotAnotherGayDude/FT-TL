@@ -13,10 +13,10 @@ FT-TL is a no-compromise execution engine designed for **low-level precision, th
 int32_t main(int argc, const char**argv) {
     static constexpr rt_tm::global_config global_config{ .exceptions = true };
 
-    rt_tm::model_graph model_graph = rt_tm::core<global_config>::parse_model(argv[2]);
+    rt_tm::model_graph model_graph = rt_tm::harbinger<global_config>::parse_model(argv[2]);
 
     rt_tm::op_graph_config graph_config{ .num_threads = 12 };
-    rt_tm::op_graph op_graph{ rt_tm::core<global_config>::create_graph(graph_config, model_graph) };
+    rt_tm::op_graph op_graph{ rt_tm::harbinger<global_config>::create_graph(graph_config, model_graph) };
 
     rt_tm::input_session_config session_config{ std::cin, .max_length = 1024 };
     rt_tm::input_session input_session{ session_config };

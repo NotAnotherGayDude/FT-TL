@@ -1,5 +1,12 @@
 #include <string.h>
 #include <stdlib.h>
+// Add these at the top of save_tensor.h
+#include <stdint.h>     // For uint8_t, uint32_t, uint64_t, etc.
+#include <stdbool.h>    // For bool type
+#include <string.h>     // For strlen, strcpy, memcpy
+#include <stdlib.h>     // For malloc, free
+#include <stdio.h>      // For FILE, fopen, fwrite, etc.
+#include <sys/stat.h>  // Add this include at the top
 
 // Add this function before intermediary_tensor_from_model_core
 size_t model_core_total_byte_size(const struct ggml_tensor* tensor) {
@@ -307,36 +314,52 @@ bool file_saver_c(const char* filename, const void* data, size_t data_size) {
 	return file_saver_c_detailed(filename, data, data_size) == FILE_SAVER_SUCCESS;
 }
 
-// Debugging IO equivalent (assuming file_saver_c exists)
+bool file_exists(const char* filename) {
+	if (!filename) {
+		return false;
+	}
+
+	struct stat buffer;
+	return (stat(filename, &buffer) == 0);
+}
+
+// Modified save_tensor_c function
 bool save_tensor_c(const struct ggml_tensor* core) {
 	if (!core) {
 		return false;
 	}
 
-	intermediary_tensor* save_tensor = intermediary_tensor_from_model_core(core);
-	if (!save_tensor) {
-		return false;
-	}
-
-	serialized_tensor serialized = serialize_tensor(save_tensor);
-	if (!serialized.data) {
-		intermediary_tensor_destroy(save_tensor);
-		return false;
-	}
-
-	// Create filename
+	// Create filename first to check if it exists
 	size_t filename_len = strlen(core->name) + strlen(".safetensor") + 1;
 	char* filename		= malloc(filename_len);
 	if (!filename) {
-		serialized_tensor_free(&serialized);
-		intermediary_tensor_destroy(save_tensor);
 		return false;
 	}
 
 	strcpy(filename, core->name);
 	strcat(filename, ".safetensor");
 
-	// Save file (assuming this function exists)
+	// CHECK IF FILE ALREADY EXISTS - SKIP IF IT DOES!
+	if (file_exists(filename)) {
+		free(filename);
+		return true;// Return true since we "successfully" didn't overwrite
+	}
+
+	// Continue with normal tensor creation only if file doesn't exist
+	intermediary_tensor* save_tensor = intermediary_tensor_from_model_core(core);
+	if (!save_tensor) {
+		free(filename);
+		return false;
+	}
+
+	serialized_tensor serialized = serialize_tensor(save_tensor);
+	if (!serialized.data) {
+		intermediary_tensor_destroy(save_tensor);
+		free(filename);
+		return false;
+	}
+
+	// Save file
 	bool success = file_saver_c(filename, serialized.data, serialized.size);
 
 	// Cleanup

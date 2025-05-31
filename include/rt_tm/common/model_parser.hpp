@@ -225,8 +225,6 @@ namespace rt_tm {
 
 	using gguf_metadata_value_variant = std::variant<float, uint64_t, int64_t, double, bool, gguf_string_t, gguf_array_t*>;
 
-	template<typename value_type> struct non_unique_ptr {};
-
 	struct gguf_metadata_value_t {
 		gguf_metadata_value_t() noexcept = default;
 		gguf_metadata_value_t& operator=(const gguf_metadata_value_t& other) noexcept;
@@ -648,21 +646,18 @@ namespace rt_tm {
 	template<global_config config> struct model_parser<config, model_format::gguf> {
 		static_assert((std::endian::native == std::endian::little), "Sorry, but big-endian is not yet supported by the library");
 
-		RT_TM_FORCE_INLINE static model_graph parse_model(std::string_view path) {
+		RT_TM_FORCE_INLINE static model_graph<config> parse_model(std::string_view path) {
 			std::string data_val{};
-			model_graph return_value{};
+			model_graph<global_config{}> return_value{};
 			data_val = file_loader<config.exceptions>{ path };
 			gguf_file_t gguf_file{};
 			string_iterator ptr{};
-			ptr.first_index = data_val.data();
-			ptr.length		= data_val.size();
-
+			ptr.first_index	 = data_val.data();
+			ptr.length		 = data_val.size();
 			gguf_file.header = value_reader<gguf_header_t>::gather_value(ptr);
-
 			for (size_t x = 0; x < gguf_file.header.tensor_count; ++x) {
 				gguf_file.tensor_infos.emplace_back(value_reader<gguf_tensor_info_t>::gather_value(ptr));
 			}
-
 			auto calculate_tensor_size = [](const gguf_tensor_info_t& tensor) -> size_t {
 				model_core temp_core{};
 				temp_core.type = tensor.type;
@@ -672,19 +667,23 @@ namespace rt_tm {
 				return temp_core.core_total_byte_size();
 			};
 
-			size_t max_tensor_end = 0;
+			size_t total_tensor_bytes = 0;
+			size_t max_tensor_end	  = 0;
 			for (const auto& tensor: gguf_file.tensor_infos) {
 				size_t tensor_size = calculate_tensor_size(tensor);
-				size_t tensor_end  = tensor.offset + tensor_size;
-				max_tensor_end	   = std::max(max_tensor_end, tensor_end);
+				total_tensor_bytes += tensor_size;
+				size_t tensor_end = tensor.offset + tensor_size;
+				max_tensor_end	  = std::max(max_tensor_end, tensor_end);
 			}
+			return_value.tensor_data.init(total_tensor_bytes);
+
 			size_t tensor_data_start = data_val.size() - max_tensor_end;
 			uint64_t alignment{ 32 };
 			gather_u64("alignment", alignment, gguf_file.header.metadata_kv);
-
 			return_value.hparams		  = value_reader<hyper_parameters>::gather_value(gguf_file.header.metadata_kv);
 			return_value.tokenizer_params = value_reader<tokenizer_parameters>::gather_value(gguf_file.header.metadata_kv);
 			sort_tensor_infos(gguf_file.tensor_infos);
+
 			for (size_t x = 0; x < gguf_file.header.tensor_count; ++x) {
 				model_core new_core{};
 				new_core.name = gguf_file.tensor_infos[x].name;
@@ -693,13 +692,13 @@ namespace rt_tm {
 					new_core.dims[y] = gguf_file.tensor_infos[x].dimensions[y];
 				}
 				size_t current_size{ new_core.core_total_byte_size() };
-				new_core.data.resize(current_size);
 				size_t absolute_offset = tensor_data_start + gguf_file.tensor_infos[x].offset;
-				std::memcpy(new_core.data.data(), data_val.data() + absolute_offset, current_size);
+				auto* ptr			   = return_value.tensor_data.claim_memory(current_size);
+				new_core.data		   = ptr;
+				std::memcpy(ptr, data_val.data() + absolute_offset, current_size);
 				return_value.model_cores.emplace_back(new_core);
 				debugging_io<config.exceptions, model_core>::load_and_compare_tensors(new_core);
 			}
-
 			return return_value;
 		}
 	};

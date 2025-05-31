@@ -32,10 +32,10 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 namespace rt_tm {
 
 	struct model_core {
-		std::vector<uint8_t, alloc_wrapper<uint8_t>> data{};
 		array<size_t, 4> dims{ 1, 1, 1, 1 };
 		std::string name{};
 		data_type type{};
+		void* data{};
 
 		RT_TM_FORCE_INLINE size_t core_total_dims() const {
 			return dims[0] * dims[1] * dims[2] * dims[3];

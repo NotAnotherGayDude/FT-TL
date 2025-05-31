@@ -76,11 +76,11 @@ static void sigint_handler(int signo) {
 /*
 int32_t main() {
 static constexpr rt_tm::global_config global_config{ .exceptions = true };
-rt_tm::model_graph model_graph = rt_tm::core<global_config>::parse_model_graph("C:\\Users\\Chris\\source\\repos\\oi_engine\\models\\Meta-Llama-3.1-8B-Instruct-Q8_0.gguf");
+rt_tm::model_graph model_graph = rt_tm::harbinger<global_config>::parse_model_graph("C:\\Users\\Chris\\source\\repos\\oi_engine\\models\\Meta-Llama-3.1-8B-Instruct-Q8_0.gguf");
 rt_tm::op_graph_config graph_config{ .num_threads = 12 };
-rt_tm::op_graph op_graph{ rt_tm::core<global_config>::create_op_graph(graph_config, model_graph) };
+rt_tm::op_graph op_graph{ rt_tm::harbinger<global_config>::create_op_graph(graph_config, model_graph) };
 rt_tm::input_session_config input_config{ std::cin, .max_length = 1024 };
-rt_tm::input_session input_session{ rt_tm::core<global_config>::create_input_session(input_config) };
+rt_tm::input_session input_session{ rt_tm::harbinger<global_config>::create_input_session(input_config) };
 while (input_session) {
 op_graph.process_input(input_session);
 }
@@ -613,18 +613,19 @@ int main(int argc, char** argv) {
 	std::cout << "ADDRESS 05: " << &vector[4] << std::endl;
 	static constexpr test_struct test{};
 	try {
-		static constexpr rt_tm::global_config global_config{ .exceptions = false };
-		rt_tm::model_graph model_graph = rt_tm::core<global_config>::parse_model_graph<rt_tm::model_format::gguf>(argv[2]);
-		rt_tm::op_graph_config graph_config{ .num_threads = 12 };
-		rt_tm::op_graph<global_config> op_graph{ rt_tm::core<global_config>::create_op_graph(graph_config, model_graph) };
 		std::string return_value{};
-		op_graph.execute_tasks();
 		bnch_swt::benchmark_stage<"rt_tm-vs_llama.cpp", 2, 1, true, "Token">::runBenchmark<"llama.cpp", "cyan">([&] {
 			return_value.clear();
 			size_t token_count{};
 			run_llama(argc, argv, return_value, token_count);
 			return token_count - 1;
 		});
+		static constexpr rt_tm::global_config global_config{ .exceptions = false };
+		auto model_graph = rt_tm::harbinger<global_config>::parse_model_graph<rt_tm::model_format::gguf>(argv[2]);
+		rt_tm::op_graph_config graph_config{ .num_threads = 12 };
+		rt_tm::op_graph<global_config> op_graph{ rt_tm::harbinger<global_config>::create_op_graph(graph_config, model_graph) };
+		op_graph.execute_tasks(0, rt_tm::device_type::cpu);
+		op_graph.reset_state(0, rt_tm::device_type::cpu);
 		std::cout << return_value << std::endl;
 		bnch_swt::benchmark_stage<"rt_tm-vs_llama.cpp", 2, 1, true, "Token">::printResults();
 	} catch (const std::exception& error) {

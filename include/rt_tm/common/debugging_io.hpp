@@ -142,7 +142,7 @@ namespace rt_tm {
 		intermediary_tensor(const model_core& other) {
 			size_t nbytes{ other.core_total_byte_size() };
 			data.resize(nbytes);
-			std::memcpy(data.data(), other.data.data(), nbytes);
+			std::memcpy(data.data(), other.data, nbytes);
 			for (size_t x = 0; x < 4; ++x) {
 				dims[x] = other.dims[x];
 			}

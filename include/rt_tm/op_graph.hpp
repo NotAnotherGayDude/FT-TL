@@ -28,44 +28,39 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 #include <rt_tm/common/common.hpp>
 #include <rt_tm/common/op_core.hpp>
 #include <rt_tm/common/memory_buffer.hpp>
-#include <rt_tm/cpu/thread_pool.hpp>
+#include <rt_tm/cpu/device.hpp>
 
 namespace rt_tm {
-
-	struct op_graph_config {
-		size_t num_threads{};
-	};
 
 	struct op_graph_base_low {
 		virtual ~op_graph_base_low() {
 		}
 	};
 
-	template<global_config config, impl_indices indices_new>
-	struct op_graph_base : public op_graph_base_low, public cpu_scheduler<op_graph_base<config, indices_new>>  {
+	template<global_config config, impl_indices indices_new> struct op_graph_base : public op_graph_base_low, public device_registry<device_type::cpu, config, indices_new> {
 	  public:
 		inline static constexpr impl_indices indices{ indices_new };
-		thread_pool<indices> thread_pool_val{};
 		op_graph_config config_val{};
 
-		RT_TM_FORCE_INLINE op_graph_base(op_graph_config graph_config) : config_val{ graph_config }, thread_pool_val{ graph_config.num_threads } {
+		RT_TM_FORCE_INLINE op_graph_base(op_graph_config graph_config)
+			: device_registry<device_type::cpu, config, indices_new>{ graph_config.num_threads }, config_val{ graph_config } {};
+
+		RT_TM_FORCE_INLINE void reset_state(size_t dev_index, device_type dev_type) {
+			for (auto& device: this->get_devices()) {
+				device->reset_state(ops);
+			}
 		}
 
-		RT_TM_FORCE_INLINE void reset_state() {
-			thread_pool_val.reset_state(ops, *this);
-		}
-
-		RT_TM_FORCE_INLINE void execute_tasks() {
-			thread_pool_val.execute_tasks();
+		RT_TM_FORCE_INLINE void execute_tasks(size_t dev_index, device_type dev_type) {
+			for (auto& device: this->get_devices()) {
+				device->execute_tasks();
+			}
 		}
 
 		RT_TM_FORCE_INLINE ~op_graph_base() {
 		}
 
 	  protected:
-		memory_buffer<config, uint8_t> op_params_buffer{};
-		memory_buffer<config, uint8_t> scratch_buffer{};
-		memory_buffer<config, uint8_t> tensor_buffer{};
 		std::vector<op_core> ops{};
 	};
 
@@ -100,35 +95,35 @@ namespace rt_tm {
 			  }() } {
 		}
 
-		RT_TM_FORCE_INLINE void reset_state() {
+		RT_TM_FORCE_INLINE void reset_state(size_t dev_index, device_type dev_type) {
 			switch (cpu_arch_index_holder::cpu_arch_index) {
 				case 0: {
-					static_cast<op_graph_base<config, impl_indices{ .cpu_index = 0 }>*>(op_graph_val.get())->reset_state();
+					static_cast<op_graph_base<config, impl_indices{ .cpu_index = 0 }>*>(op_graph_val.get())->reset_state(dev_index, dev_type);
 					break;
 				}
 				case 1: {
-					static_cast<op_graph_base<config, impl_indices{ .cpu_index = 1 }>*>(op_graph_val.get())->reset_state();
+					static_cast<op_graph_base<config, impl_indices{ .cpu_index = 1 }>*>(op_graph_val.get())->reset_state(dev_index, dev_type);
 					break;
 				}
 				case 2: {
-					static_cast<op_graph_base<config, impl_indices{ .cpu_index = 2 }>*>(op_graph_val.get())->reset_state();
+					static_cast<op_graph_base<config, impl_indices{ .cpu_index = 2 }>*>(op_graph_val.get())->reset_state(dev_index, dev_type);
 					break;
 				}
 			}
 		}
 
-		RT_TM_FORCE_INLINE void execute_tasks() {
+		RT_TM_FORCE_INLINE void execute_tasks(size_t dev_index, device_type dev_type) {
 			switch (cpu_arch_index_holder::cpu_arch_index) {
 				case 0: {
-					static_cast<op_graph_base<config, impl_indices{ .cpu_index = 0 }>*>(op_graph_val.get())->execute_tasks();
+					static_cast<op_graph_base<config, impl_indices{ .cpu_index = 0 }>*>(op_graph_val.get())->execute_tasks(dev_index, dev_type);
 					break;
 				}
 				case 1: {
-					static_cast<op_graph_base<config, impl_indices{ .cpu_index = 1 }>*>(op_graph_val.get())->execute_tasks();
+					static_cast<op_graph_base<config, impl_indices{ .cpu_index = 1 }>*>(op_graph_val.get())->execute_tasks(dev_index, dev_type);
 					break;
 				}
 				case 2: {
-					static_cast<op_graph_base<config, impl_indices{ .cpu_index = 2 }>*>(op_graph_val.get())->execute_tasks();
+					static_cast<op_graph_base<config, impl_indices{ .cpu_index = 2 }>*>(op_graph_val.get())->execute_tasks(dev_index, dev_type);
 					break;
 				}
 			}

@@ -32,12 +32,12 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace rt_tm {
 
-	template<global_config config> struct core {
-		template<model_format format> RT_TM_FORCE_INLINE static model_graph parse_model_graph(std::string_view path) {
+	template<global_config config> struct harbinger {
+		template<model_format format> RT_TM_FORCE_INLINE static model_graph<config> parse_model_graph(std::string_view path) {
 			return model_parser<config, format>::parse_model(path);
 		}
 
-		RT_TM_FORCE_INLINE static op_graph<config> create_op_graph(op_graph_config graph_config, const model_graph&) {
+		RT_TM_FORCE_INLINE static op_graph<config> create_op_graph(op_graph_config graph_config, const model_graph<config>&) {
 			return op_graph<config>{ graph_config };
 		}
 

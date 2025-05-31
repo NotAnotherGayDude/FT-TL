@@ -32,9 +32,36 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 namespace rt_tm {
 
 	struct op_core : public param_api<op_core> {
-		size_t scheduler_depth{};
-		model_core* core{};
-		void* aux_params{};
+		array<size_t, 4> dims{ 1, 1, 1, 1 };
+		data_type data_type_val{};
+		std::string name{};
+		size_t depth{};
+		op_type type{};
+		void* data{};
+
+		RT_TM_FORCE_INLINE size_t core_total_dims() const {
+			return dims[0] * dims[1] * dims[2] * dims[3];
+		}
+
+		RT_TM_FORCE_INLINE size_t core_total_byte_size() const {
+			size_t total_elements = core_total_dims();
+			size_t block_size	  = core_block_size();
+			size_t type_size	  = core_type_size();
+			size_t num_blocks	  = (total_elements + block_size - 1) / block_size;
+			return num_blocks * type_size;
+		}
+
+		RT_TM_INLINE size_t core_block_size() const {
+			return get_type_traits(data_type_val).block_size;
+		}
+
+		RT_TM_INLINE size_t core_type_size() const {
+			return get_type_traits(data_type_val).type_size;
+		}
+
+		RT_TM_INLINE size_t core_row_size(int64_t dims_new) const {
+			return core_type_size() * dims_new / core_block_size();
+		}
 	};
 
 }

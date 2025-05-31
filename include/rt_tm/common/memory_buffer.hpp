@@ -33,15 +33,31 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace rt_tm {
 
-	template<global_config config, typename value_type_new> struct memory_buffer : public alloc_wrapper<value_type_new> {
-		using value_type = value_type_new;
+	template<global_config config> struct memory_buffer : public alloc_wrapper<uint8_t> {
+		using value_type = uint8_t;
 		using alloc		 = alloc_wrapper<value_type>;
 		using pointer	 = value_type*;
 		using size_type	 = size_t;
 
 		RT_TM_FORCE_INLINE memory_buffer() noexcept = default;
 
-		RT_TM_FORCE_INLINE memory_buffer(size_t size) noexcept {
+		RT_TM_FORCE_INLINE memory_buffer& operator=(const memory_buffer&) noexcept = delete;
+		RT_TM_FORCE_INLINE memory_buffer(const memory_buffer&) noexcept			   = delete;
+
+		RT_TM_FORCE_INLINE memory_buffer& operator=(memory_buffer&&other) noexcept {
+			if (this != &other) {
+				std::swap(current_offset, other.current_offset);
+				std::swap(data_val, other.data_val);
+				std::swap(size_val, other.size_val);
+			}
+			return *this;
+		}
+
+		RT_TM_FORCE_INLINE memory_buffer(memory_buffer&& other) noexcept {
+			*this = std::move(other);
+		}
+
+		RT_TM_FORCE_INLINE void init(size_t size) noexcept {
 			data_val = alloc::allocate(size);
 			size_val = size;
 		}

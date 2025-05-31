@@ -30,5 +30,5 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 #include <rt_tm/common/memory_buffer.hpp>
 #include <rt_tm/common/type_traits.hpp>
 #include <rt_tm/common/array.hpp>
-#include <rt_tm/common/core.hpp>
+#include <rt_tm/common/harbinger.hpp>
 #include <rt_tm/op_graph.hpp>

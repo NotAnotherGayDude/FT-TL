@@ -70,4 +70,8 @@ namespace rt_tm {
 		size_t gpu_index{};
 	};
 
+	struct op_graph_config {
+		size_t num_threads{};
+	};
+
 }

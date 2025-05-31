@@ -26,6 +26,7 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma once
 
 #include <rt_tm/common/model_core.hpp>
+#include <rt_tm/common/memory_buffer.hpp>
 #include <rt_tm/common/common.hpp>
 
 namespace rt_tm {
@@ -58,9 +59,10 @@ namespace rt_tm {
 		uint64_t file_type{};
 	};
 
-	struct model_graph {
+	template<global_config config> struct model_graph {
 		tokenizer_parameters tokenizer_params{};
 		std::vector<model_core> model_cores{};
+		memory_buffer<config> tensor_data{};
 		hyper_parameters hparams{};
 	};
 
