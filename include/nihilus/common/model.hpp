@@ -29,10 +29,10 @@ RealTimeChris (Chris M.)
 namespace nihilus {
 
 	template<typename model_generation_type, typename model_size_type> struct model_base {
-		model_config<model_generation_type, model_size_type> config{};
-		virtual void execute_model()		 = 0;
-		virtual void init(cli_params params) = 0;
-		virtual ~model_base()				 = default;
+		model_config<model_generation_type, model_size_type> config_new{};
+		virtual void execute_model(execution_parameters& params) = 0;
+		virtual void init(cli_params params)					 = 0;
+		virtual ~model_base()									 = default;
 	};
 
 	static constexpr impl_indices indices_new{};
@@ -62,15 +62,17 @@ namespace nihilus {
 		NIHILUS_FORCE_INLINE void init(cli_params params) {
 			memory.init(total_required_bytes);
 			core_bases_config_type::template impl<memory_mapper>(memory);
-			core_bases_config_type::template impl<execution_planner>(params.thread_count);
 		}
 
 		template<op_type_type type> NIHILUS_FORCE_INLINE auto& get_core() {
 			return *static_cast<core_traits<config, type>*>(this);
 		}
 
-		NIHILUS_FORCE_INLINE void execute_model() {
-			this->execute_tasks();
+		NIHILUS_FORCE_INLINE void execute_model(execution_parameters& params) {
+			for (size_t x = 0; x < params.token_count + 1; ++x) {
+				core_bases_config_type::template impl<execution_planner>(thread_count);
+				this->execute_tasks();
+			}
 			// Perform all of the necessary stuff to execute the model - along with all of the constexpr values stored globally inside the class LOL!.
 			// Because we only pay the "virtual overhead @ the top here == totally negligible.
 		};

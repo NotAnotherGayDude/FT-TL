@@ -27,11 +27,14 @@ RealTimeChris (Chris M.)
 
 namespace nihilus {
 
+	array<size_t, 22> depths_new{};
+
 	template<model_config config, device_type dev_type, kernel_type type, single_input core_type> struct kernel_dispatcher
 		: public kernel_traits<type, core_type, typename core_type::input_type01> {
 		NIHILUS_FORCE_INLINE static void impl(core_type& params) {
 			kernel_dispatcher_impl<cpu_arch_index, type, typename core_type::transform_type, typename core_type::output_type, typename core_type::input_type01::output_type>::impl(
 				params.count, params.data, get_adjacent_value<config, core_type::type, 0>::impl(params).data);
+			++depths_new[core_type::depth];
 		}
 	};
 
@@ -41,6 +44,7 @@ namespace nihilus {
 			kernel_dispatcher_impl<cpu_arch_index, type, typename core_type::transform_type, typename core_type::output_type, typename core_type::input_type01::output_type,
 				typename core_type::input_type02::output_type>::impl(params.count, params.data, get_adjacent_value<config, core_type::type, 0>::impl(params).data,
 				get_adjacent_value<config, core_type::type, 1>::impl(params).data);
+			++depths_new[core_type::depth];
 		}
 	};
 
@@ -51,6 +55,7 @@ namespace nihilus {
 				typename core_type::input_type02::output_type, typename core_type::input_type03::output_type>::impl(params.count, params.data,
 				get_adjacent_value<config, core_type::type, 0>::impl(params).data, get_adjacent_value<config, core_type::type, 1>::impl(params).data,
 				get_adjacent_value<config, core_type::type, 2>::impl(params).data);
+			++depths_new[core_type::depth];
 		}
 	};
 

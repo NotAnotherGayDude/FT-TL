@@ -67,6 +67,7 @@ namespace nihilus {
 				if (token[0] == '-') {
 					current_flag = token;
 					if (token == "-m" || token == "-t" || token == "-p" || token == "-s" || token == "-n" || token == "-b") {
+						std::cout << "CURRENT TOKEN: " << token << std::endl;
 						expect_value = true;
 					} else {
 						expect_value = false;
@@ -90,9 +91,9 @@ namespace nihilus {
 						}
 					} else if (current_flag == "-n") {
 						try {
-							result.n_predict = std::stoull(token);
+							result.n_tokens = std::stoull(token);
 						} catch (const std::exception&) {
-							result.n_predict = 128;
+							result.n_tokens = 0;
 						}
 					} else if (current_flag == "-b") {
 						try {

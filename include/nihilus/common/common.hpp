@@ -34,49 +34,128 @@ RealTimeChris (Chris M.)
 
 namespace nihilus {
 
-	struct alignas(64) latch_wrapper_holder {
-		NIHILUS_FORCE_INLINE latch_wrapper_holder() noexcept = default;
-		NIHILUS_FORCE_INLINE latch_wrapper_holder(const latch_wrapper_holder&) noexcept {};
+	struct alignas(64) atomic_flag_wrapper {
+		NIHILUS_FORCE_INLINE atomic_flag_wrapper() noexcept = default;
+		NIHILUS_FORCE_INLINE atomic_flag_wrapper& operator=(const atomic_flag_wrapper&) noexcept {
+			return *this;
+		};
+		NIHILUS_FORCE_INLINE atomic_flag_wrapper(const atomic_flag_wrapper&) noexcept {};
+
+		alignas(64) std::atomic_flag flag{};
+
+		NIHILUS_FORCE_INLINE void clear(std::memory_order order) {
+			flag.clear(order);
+		}
+
+		NIHILUS_FORCE_INLINE void test_and_set(std::memory_order order) {
+			flag.test_and_set(order);
+		}
+
+		NIHILUS_FORCE_INLINE void notify_one() {
+			flag.notify_one();
+		}
+
+		NIHILUS_FORCE_INLINE bool test(std::memory_order order) {
+			return flag.test(order);
+		}
+
+		NIHILUS_FORCE_INLINE void wait(bool value) {
+			flag.wait(value);
+		}
+	};
+
+	struct alignas(64) slim_latch {
+		alignas(64) std::vector<atomic_flag_wrapper> thread_flags{};
+		alignas(64) std::atomic<uint64_t> global_counter{};
+		alignas(64) size_t thread_count{};
+
+		NIHILUS_FORCE_INLINE slim_latch() noexcept = default;
+		NIHILUS_FORCE_INLINE slim_latch(const slim_latch&) noexcept {};
 
 		NIHILUS_FORCE_INLINE void reset(uint64_t count) {
-			sync_count.store(count, std::memory_order_release);
-			sync_count.notify_all();
+			thread_count = count;
+			global_counter.store(count, std::memory_order_release);
+			thread_flags.resize(count);
+			for (size_t i = 0; i < count; ++i) {
+				thread_flags[i].clear(std::memory_order_release);
+			}
 		}
 
 		NIHILUS_FORCE_INLINE bool try_wait() {
-			return sync_count.load(std::memory_order_acquire) == 0;
+			return global_counter.load(std::memory_order_acquire) == 0;
 		}
 
 		NIHILUS_FORCE_INLINE void count_down() {
-			sync_count.store(0, std::memory_order_release);
-			sync_count.notify_all();
+			global_counter.store(0, std::memory_order_release);
+			global_counter.notify_all();
+
+			for (size_t x = 0; x < thread_count; ++x) {
+				thread_flags[x].test_and_set(std::memory_order_release);
+				thread_flags[x].notify_one();
+			}
 		}
 
-		NIHILUS_FORCE_INLINE void arrive_and_wait() {
-			uint64_t remaining = sync_count.fetch_sub(1, std::memory_order_acq_rel);
-			sync_count.notify_all();
+		NIHILUS_FORCE_INLINE void count_up() {
+			global_counter.store(thread_count, std::memory_order_release);
+			global_counter.notify_all();
 
-			if (remaining > 1) {
-				wait();
+			for (size_t x = 0; x < thread_count; ++x) {
+				thread_flags[x].test_and_set(std::memory_order_release);
+				thread_flags[x].notify_one();
+			}
+		}
+
+		NIHILUS_FORCE_INLINE void arrive_and_wait(size_t thread_index) {
+			uint64_t remaining = global_counter.fetch_sub(1, std::memory_order_acq_rel);
+
+			if (remaining == 1) {
+				count_down();
+			} else {
+				bool current_value = thread_flags[thread_index].test(std::memory_order_acquire);
+				while (!current_value) {
+					for (int i = 0; i < 100 && !current_value; ++i) {
+						current_value = thread_flags[thread_index].test(std::memory_order_acquire);
+					}
+					nihilus_pause();
+				}
+			}
+		}
+
+		NIHILUS_FORCE_INLINE void arrive_and_wait_second(size_t thread_index) {
+			uint64_t remaining = global_counter.fetch_add(1, std::memory_order_acq_rel);
+
+			if (remaining == thread_count - 1) {
+				count_up();
+			} else {
+				bool current_value = thread_flags[thread_index].test(std::memory_order_acquire);
+				while (!current_value) {
+					for (int i = 0; i < 100 && !current_value; ++i) {
+						current_value = thread_flags[thread_index].test(std::memory_order_acquire);
+					}
+					nihilus_pause();
+				}
 			}
 		}
 
 		NIHILUS_FORCE_INLINE void wait() {
-			uint64_t count = sync_count.load(std::memory_order_acquire);
-			while (count != 0) {
-				for (int i = 0; i < 1000; ++i) {
-					count = sync_count.load(std::memory_order_acquire);
-					if (count == 0) {
-						return;
-					}
-					nihilus_pause();
+			uint64_t current_value = global_counter.load(std::memory_order_acquire);
+			while (current_value > 0) {
+				for (int i = 0; i < 100 && current_value > 0; ++i) {
+					current_value = global_counter.load(std::memory_order_acquire);
 				}
-				sync_count.wait(count);
-				count = sync_count.load(std::memory_order_acquire);
+				nihilus_pause();
 			}
 		}
 
-		alignas(64) std::atomic<uint64_t> sync_count{};
+		NIHILUS_FORCE_INLINE void wait_second() {
+			uint64_t current_value = global_counter.load(std::memory_order_acquire);
+			while (current_value < thread_count) {
+				for (int i = 0; i < 100 && current_value > 0; ++i) {
+					current_value = global_counter.load(std::memory_order_acquire);
+				}
+				nihilus_pause();
+			}
+		}
 	};
 
 	template<typename value_type>
@@ -121,9 +200,9 @@ namespace nihilus {
 		}
 
 		NIHILUS_FORCE_INLINE void add_time() noexcept {
-			std::unique_lock lock{ mutex };
+			//std::unique_lock lock{ mutex };
 			values.emplace_back(total_time_elapsed());
-			lock.release();
+			//lock.release();
 			reset();
 		}
 
@@ -134,6 +213,10 @@ namespace nihilus {
 				total_time += get_value_as_uint(value);
 			}
 			return total_time / ((values.size() > 0) ? values.size() : 1);
+		}
+
+		NIHILUS_FORCE_INLINE uint64_t get_count() noexcept {
+			return values.size();
 		}
 
 		NIHILUS_FORCE_INLINE void reset(time_type newTimeValue = time_type{}) noexcept {
@@ -547,6 +630,7 @@ namespace nihilus {
 		uint64_t batch_size{ 512 };
 		uint64_t n_predict{ 128 };
 		std::string model_file{};
+		uint64_t n_tokens{ 0 };
 		std::string prompt{};
 		uint64_t seed{ 0 };
 	};
@@ -558,5 +642,23 @@ namespace nihilus {
 
 	struct op_graph_config {
 		uint64_t num_threads{ std::thread::hardware_concurrency() };
+	};
+
+	struct execution_parameters {
+		const int32_t* input_tokens{};
+		size_t kv_cache_seq_len{};
+		size_t position_offset{};
+		size_t max_new_tokens{};
+		uint64_t random_seed{};
+		int32_t eos_token_id{};
+		bool clear_kv_cache{};
+		size_t token_count{};
+		size_t sequence_id{};
+		size_t batch_size{};
+		float temperature{};
+		bool is_prefill{};
+		bool use_cache{};
+		int32_t top_k{};
+		float top_p{};
 	};
 }

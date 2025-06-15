@@ -60,11 +60,11 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::token_embd_weight> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using output_type		= typename kernel_type_profile_traits<config.kernel_profile>::weight_type;
@@ -81,11 +81,11 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::inp_tokens> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using output_type		= typename kernel_type_profile_traits<config.kernel_profile>::input_token_type;
@@ -102,11 +102,11 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::inp_pos> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using output_type		= typename kernel_type_profile_traits<config.kernel_profile>::position_type;
@@ -123,11 +123,11 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::inp_out_ids> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using output_type		= typename kernel_type_profile_traits<config.kernel_profile>::output_token_type;
@@ -144,11 +144,11 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::rope_freqs_weight> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using output_type		= typename kernel_type_profile_traits<config.kernel_profile>::rope_freqs_weight_type;
@@ -165,11 +165,11 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::output_weight> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using output_type		= typename kernel_type_profile_traits<config.kernel_profile>::weight_type;
@@ -186,11 +186,11 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::output_norm_weight> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using output_type		= typename kernel_type_profile_traits<config.kernel_profile>::output_norm_weight_type;
@@ -207,11 +207,11 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::attn_q_weight> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using output_type		= typename kernel_type_profile_traits<config.kernel_profile>::query_type;
@@ -228,11 +228,11 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::attn_k_weight> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using output_type		= typename kernel_type_profile_traits<config.kernel_profile>::key_type;
@@ -249,11 +249,11 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::attn_v_weight> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using output_type		= typename kernel_type_profile_traits<config.kernel_profile>::value_type;
@@ -270,11 +270,11 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::attn_output_weight> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using output_type		= typename kernel_type_profile_traits<config.kernel_profile>::attn_output_weight_type;
@@ -291,11 +291,11 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::attn_norm_weight> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using output_type		= typename kernel_type_profile_traits<config.kernel_profile>::attn_norm_weight_type;
@@ -312,11 +312,11 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::ffn_gate_weight> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using output_type		= typename kernel_type_profile_traits<config.kernel_profile>::ffn_gate_weight_type;
@@ -333,11 +333,11 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::ffn_up_weight> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using output_type		= typename kernel_type_profile_traits<config.kernel_profile>::ffn_up_weight_type;
@@ -354,11 +354,11 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::ffn_down_weight> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using output_type		= typename kernel_type_profile_traits<config.kernel_profile>::ffn_down_weight_type;
@@ -375,11 +375,11 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::ffn_norm_weight> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using output_type		= typename kernel_type_profile_traits<config.kernel_profile>::ffn_norm_weight_type;
@@ -396,11 +396,11 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::cache_k> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using output_type		= typename kernel_type_profile_traits<config.kernel_profile>::kv_cache_type;
@@ -417,11 +417,11 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::cache_v> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using output_type		= typename kernel_type_profile_traits<config.kernel_profile>::kv_cache_type;
@@ -438,11 +438,11 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::kq_mask> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using output_type		= typename kernel_type_profile_traits<config.kernel_profile>::kq_mask_type;
@@ -459,12 +459,12 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::inp_embd> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
@@ -487,12 +487,12 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::norm> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::norm>;
@@ -513,11 +513,11 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::attn_norm> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::attn_norm>;
@@ -540,12 +540,12 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::qcur> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::qcur>;
@@ -561,20 +561,20 @@ namespace nihilus {
 		static constexpr layer_op_type layer_type{ layer_op_type::per_block };
 		static constexpr kernel_type krn_type{ kernel_type::mul_mat };
 		static constexpr llama_op_types type{ llama_op_types::qcur };
-		array<latch_wrapper_holder, model_traits_type::block_count> sync_flag_start{};
-		array<latch_wrapper_holder, model_traits_type::block_count> sync_flag_end{};
+		array<slim_latch, model_traits_type::block_count> sync_flag_start{};
+		array<slim_latch, model_traits_type::block_count> sync_flag_end{};
 		static constexpr uint64_t count{ total_required_bytes / sizeof(output_type) };
 		output_type* data{};
 		int32_t value{};
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::qcur_reshaped> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::qcur_reshaped>;
@@ -593,12 +593,12 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::qcur_rope> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::qcur_rope>;
@@ -621,12 +621,12 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::kcur> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::kcur>;
@@ -642,20 +642,20 @@ namespace nihilus {
 		static constexpr layer_op_type layer_type{ layer_op_type::per_block };
 		static constexpr kernel_type krn_type{ kernel_type::mul_mat };
 		static constexpr llama_op_types type{ llama_op_types::kcur };
-		array<latch_wrapper_holder, model_traits_type::block_count> sync_flag_start{};
-		array<latch_wrapper_holder, model_traits_type::block_count> sync_flag_end{};
+		array<slim_latch, model_traits_type::block_count> sync_flag_start{};
+		array<slim_latch, model_traits_type::block_count> sync_flag_end{};
 		static constexpr uint64_t count{ total_required_bytes / sizeof(output_type) };
 		output_type* data{};
 		int32_t value{};
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::kcur_reshaped> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::kcur_reshaped>;
@@ -674,12 +674,12 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::kcur_rope> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::kcur_rope>;
@@ -702,12 +702,12 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::vcur> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::vcur>;
@@ -723,20 +723,20 @@ namespace nihilus {
 		static constexpr layer_op_type layer_type{ layer_op_type::per_block };
 		static constexpr kernel_type krn_type{ kernel_type::mul_mat };
 		static constexpr llama_op_types type{ llama_op_types::vcur };
-		array<latch_wrapper_holder, model_traits_type::block_count> sync_flag_start{};
-		array<latch_wrapper_holder, model_traits_type::block_count> sync_flag_end{};
+		array<slim_latch, model_traits_type::block_count> sync_flag_start{};
+		array<slim_latch, model_traits_type::block_count> sync_flag_end{};
 		static constexpr uint64_t count{ total_required_bytes / sizeof(output_type) };
 		output_type* data{};
 		int32_t value{};
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::k_cache_view> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::k_cache_view>;
@@ -755,12 +755,12 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::k_cache_view_copy> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::k_cache_view_copy>;
@@ -779,12 +779,12 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::vcur_transposed> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::vcur_transposed>;
@@ -803,12 +803,12 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::v_cache_view> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::v_cache_view>;
@@ -827,12 +827,12 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::v_cache_view_copy> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::v_cache_view_copy>;
@@ -851,12 +851,12 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::v> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::v>;
@@ -875,12 +875,12 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::k> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::k>;
@@ -899,12 +899,12 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::q> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::q>;
@@ -923,12 +923,12 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::kq> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::kq>;
@@ -944,20 +944,20 @@ namespace nihilus {
 		static constexpr layer_op_type layer_type{ layer_op_type::per_block };
 		static constexpr kernel_type krn_type{ kernel_type::mul_mat };
 		static constexpr llama_op_types type{ llama_op_types::kq };
-		array<latch_wrapper_holder, model_traits_type::block_count> sync_flag_start{};
-		array<latch_wrapper_holder, model_traits_type::block_count> sync_flag_end{};
+		array<slim_latch, model_traits_type::block_count> sync_flag_start{};
+		array<slim_latch, model_traits_type::block_count> sync_flag_end{};
 		static constexpr uint64_t count{ total_required_bytes / sizeof(output_type) };
 		output_type* data{};
 		int32_t value{};
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::kq_soft_max> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::kq_soft_max>;
@@ -973,20 +973,20 @@ namespace nihilus {
 		static constexpr layer_op_type layer_type{ layer_op_type::per_block };
 		static constexpr kernel_type krn_type{ kernel_type::softmax };
 		static constexpr llama_op_types type{ llama_op_types::kq_soft_max };
-		array<latch_wrapper_holder, model_traits_type::block_count> sync_flag_start{};
-		array<latch_wrapper_holder, model_traits_type::block_count> sync_flag_end{};
+		array<slim_latch, model_traits_type::block_count> sync_flag_start{};
+		array<slim_latch, model_traits_type::block_count> sync_flag_end{};
 		static constexpr uint64_t count{ total_required_bytes / sizeof(output_type) };
 		output_type* data{};
 		int32_t value{};
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::kqv> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::kqv>;
@@ -1002,20 +1002,20 @@ namespace nihilus {
 		static constexpr layer_op_type layer_type{ layer_op_type::per_block };
 		static constexpr kernel_type krn_type{ kernel_type::mul_mat };
 		static constexpr llama_op_types type{ llama_op_types::kqv };
-		array<latch_wrapper_holder, model_traits_type::block_count> sync_flag_start{};
-		array<latch_wrapper_holder, model_traits_type::block_count> sync_flag_end{};
+		array<slim_latch, model_traits_type::block_count> sync_flag_start{};
+		array<slim_latch, model_traits_type::block_count> sync_flag_end{};
 		static constexpr uint64_t count{ total_required_bytes / sizeof(output_type) };
 		output_type* data{};
 		int32_t value{};
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::kqv_merged> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::kqv_merged>;
@@ -1034,12 +1034,12 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::kqv_merged_cont> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::kqv_merged_cont>;
@@ -1058,12 +1058,12 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::kqv_out> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::kqv_out>;
@@ -1079,20 +1079,20 @@ namespace nihilus {
 		static constexpr layer_op_type layer_type{ layer_op_type::per_block };
 		static constexpr kernel_type krn_type{ kernel_type::mul_mat };
 		static constexpr llama_op_types type{ llama_op_types::kqv_out };
-		array<latch_wrapper_holder, model_traits_type::block_count> sync_flag_start{};
-		array<latch_wrapper_holder, model_traits_type::block_count> sync_flag_end{};
+		array<slim_latch, model_traits_type::block_count> sync_flag_start{};
+		array<slim_latch, model_traits_type::block_count> sync_flag_end{};
 		static constexpr uint64_t count{ total_required_bytes / sizeof(output_type) };
 		output_type* data{};
 		int32_t value{};
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::ffn_inp> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::ffn_inp>;
@@ -1114,12 +1114,12 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::norm_out> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::norm_out>;
@@ -1140,11 +1140,11 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::ffn_norm> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::ffn_norm>;
@@ -1167,12 +1167,12 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::ffn_gate> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::ffn_gate>;
@@ -1188,20 +1188,20 @@ namespace nihilus {
 		static constexpr layer_op_type layer_type{ layer_op_type::per_block };
 		static constexpr kernel_type krn_type{ kernel_type::mul_mat };
 		static constexpr llama_op_types type{ llama_op_types::ffn_gate };
-		array<latch_wrapper_holder, model_traits_type::block_count> sync_flag_start{};
-		array<latch_wrapper_holder, model_traits_type::block_count> sync_flag_end{};
+		array<slim_latch, model_traits_type::block_count> sync_flag_start{};
+		array<slim_latch, model_traits_type::block_count> sync_flag_end{};
 		static constexpr uint64_t count{ total_required_bytes / sizeof(output_type) };
 		output_type* data{};
 		int32_t value{};
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::ffn_silu> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::ffn_silu>;
@@ -1222,12 +1222,12 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::ffn_up> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::ffn_up>;
@@ -1243,19 +1243,19 @@ namespace nihilus {
 		static constexpr layer_op_type layer_type{ layer_op_type::per_block };
 		static constexpr kernel_type krn_type{ kernel_type::mul_mat };
 		static constexpr llama_op_types type{ llama_op_types::ffn_up };
-		array<latch_wrapper_holder, model_traits_type::block_count> sync_flag_start{};
-		array<latch_wrapper_holder, model_traits_type::block_count> sync_flag_end{};
+		array<slim_latch, model_traits_type::block_count> sync_flag_start{};
+		array<slim_latch, model_traits_type::block_count> sync_flag_end{};
 		static constexpr uint64_t count{ total_required_bytes / sizeof(output_type) };
 		output_type* data{};
 		int32_t value{};
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::ffn_gate_par> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::ffn_gate_par>;
@@ -1278,12 +1278,12 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::ffn_out> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::ffn_out>;
@@ -1299,20 +1299,20 @@ namespace nihilus {
 		static constexpr layer_op_type layer_type{ layer_op_type::per_block };
 		static constexpr kernel_type krn_type{ kernel_type::mul_mat };
 		static constexpr llama_op_types type{ llama_op_types::ffn_out };
-		array<latch_wrapper_holder, model_traits_type::block_count> sync_flag_start{};
-		array<latch_wrapper_holder, model_traits_type::block_count> sync_flag_end{};
+		array<slim_latch, model_traits_type::block_count> sync_flag_start{};
+		array<slim_latch, model_traits_type::block_count> sync_flag_end{};
 		static constexpr uint64_t count{ total_required_bytes / sizeof(output_type) };
 		output_type* data{};
 		int32_t value{};
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::l_out> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::l_out>;
@@ -1334,12 +1334,12 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::attn_residual> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::attn_residual>;
@@ -1361,12 +1361,12 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::prev_residual> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::prev_residual>;
@@ -1388,12 +1388,12 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::final_norm> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::final_norm>;
@@ -1414,11 +1414,11 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::result_norm> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
 
 		using model_traits_type = model_traits<config.arch, config.model_size, config.model_generation>;
 		using this_type			= core_traits<config, llama_op_types::result_norm>;
@@ -1441,17 +1441,17 @@ namespace nihilus {
 	};
 
 	template<model_config config> struct core_traits<config, llama_op_types::result_output> {
-		NIHILUS_FORCE_INLINE core_traits() noexcept							   = default;
+		NIHILUS_FORCE_INLINE core_traits() noexcept								 = default;
 		NIHILUS_FORCE_INLINE core_traits& operator=(const core_traits&) noexcept = delete;
-		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			   = delete;
-		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept	   = delete;
-		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				   = delete;
-		using transform_type												   = int32_t;
-		using model_traits_type												   = model_traits<config.arch, config.model_size, config.model_generation>;
-		using this_type														   = core_traits<config, llama_op_types::result_output>;
-		using input_type01													   = core_traits<config, llama_op_types::output_weight>;
-		using input_type02													   = core_traits<config, llama_op_types::result_norm>;
-		using output_type													   = typename kernel_type_profile_traits<config.kernel_profile>::logit_type;
+		NIHILUS_FORCE_INLINE core_traits(const core_traits&) noexcept			 = delete;
+		NIHILUS_FORCE_INLINE core_traits& operator=(core_traits&&) noexcept		 = delete;
+		NIHILUS_FORCE_INLINE core_traits(core_traits&&) noexcept				 = delete;
+		using transform_type													 = int32_t;
+		using model_traits_type													 = model_traits<config.arch, config.model_size, config.model_generation>;
+		using this_type															 = core_traits<config, llama_op_types::result_output>;
+		using input_type01														 = core_traits<config, llama_op_types::output_weight>;
+		using input_type02														 = core_traits<config, llama_op_types::result_norm>;
+		using output_type														 = typename kernel_type_profile_traits<config.kernel_profile>::logit_type;
 		static constexpr uint64_t depth{ std::max(input_type01::depth, input_type02::depth) + 1 };
 		static constexpr alloc_type alc_type{ alloc_type::single_alloc };
 		static constexpr bool dequantization{ requires_dequant_or_quant<typename input_type01::output_type, typename input_type02::output_type>::required };
@@ -1461,8 +1461,8 @@ namespace nihilus {
 		static constexpr layer_op_type layer_type{ layer_op_type::global_output };
 		static constexpr kernel_type krn_type{ kernel_type::mul_mat };
 		static constexpr llama_op_types type{ llama_op_types::result_output };
-		array<latch_wrapper_holder, model_traits_type::block_count> sync_flag_start{};
-		array<latch_wrapper_holder, model_traits_type::block_count> sync_flag_end{};
+		array<slim_latch, model_traits_type::block_count> sync_flag_start{};
+		array<slim_latch, model_traits_type::block_count> sync_flag_end{};
 		static constexpr uint64_t count{ total_required_bytes / sizeof(output_type) };
 		output_type* data{};
 		int32_t value{};
@@ -1489,11 +1489,11 @@ namespace nihilus {
 	};
 
 	template<typename... bases> struct core_bases : bases... {
-		NIHILUS_FORCE_INLINE core_bases() noexcept					= default;
-		NIHILUS_FORCE_INLINE core_bases& operator=(core_bases&&)		= delete;
-		NIHILUS_FORCE_INLINE core_bases(core_bases&&)					= delete;
+		NIHILUS_FORCE_INLINE core_bases() noexcept					  = default;
+		NIHILUS_FORCE_INLINE core_bases& operator=(core_bases&&)	  = delete;
+		NIHILUS_FORCE_INLINE core_bases(core_bases&&)				  = delete;
 		NIHILUS_FORCE_INLINE core_bases& operator=(const core_bases&) = delete;
-		NIHILUS_FORCE_INLINE core_bases(const core_bases&)			= delete;
+		NIHILUS_FORCE_INLINE core_bases(const core_bases&)			  = delete;
 
 		template<template<typename> typename mixin_type, typename op_entity_type, typename... arg_types> NIHILUS_FORCE_INLINE void impl_internal(arg_types&&... args) {
 			return mixin_type<op_entity_type>::impl(*static_cast<op_entity_type*>(this), std::forward<arg_types>(args)...);

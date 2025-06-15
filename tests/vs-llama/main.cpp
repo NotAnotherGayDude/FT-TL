@@ -601,6 +601,8 @@ int main(int argc, char** argv) {
 		nihilus::model<model_config> model_graph{ cli_args_final };
 		nihilus::input_session_config session_config{ std::cin, 1024 };
 		nihilus::input_session input_session{ session_config, model_graph };
+		input_session.exec_params.token_count = cli_args_final.n_tokens;
+		std::cout << "CURRENT COUNT: " << input_session.exec_params.token_count << std::endl;
 		while (input_session.process_input()) {
 		}
 		bnch_swt::benchmark_stage<"nihilus-vs_llama.cpp", 2, 1, true, "Token">::runBenchmark<"llama.cpp", "cyan">([&] {

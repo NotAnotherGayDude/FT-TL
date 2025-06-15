@@ -39,13 +39,15 @@ namespace nihilus {
 
 		NIHILUS_FORCE_INLINE bool process_input() {
 			this->tokenize(input, model_ptr->template get_core<model_type::op_type_type::inp_tokens>().data);
-			model_ptr->execute_tasks();
+			model_ptr->execute_model(exec_params);
 			return false;
 		}
 
 		NIHILUS_FORCE_INLINE operator bool() {
 			return false;
 		}
+
+		execution_parameters exec_params{};
 
 	  protected:
 		model_type* model_ptr{};
